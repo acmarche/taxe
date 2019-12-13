@@ -1,0 +1,3 @@
+taxe:
+    resource: "../../src/AcMarche/Taxe/src/Controller/"
+    type:     annotation
