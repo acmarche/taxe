@@ -18,13 +18,23 @@ class ExerciceController extends AbstractController
 {
 
     /**
+     * @var ExerciceRepository
+     */
+    private $exerciceRepository;
+
+    public function __construct(ExerciceRepository $exerciceRepository)
+    {
+        $this->exerciceRepository = $exerciceRepository;
+    }
+
+    /**
      * @Route("/new/{id}", name="exercice_new", methods={"GET","POST"})
      */
     public function new(Request $request, Taxe $taxe): Response
     {
         $exercice = new Exercice();
         $exercice->setTaxe($taxe);
-        $exercice->setAnnee(2019);
+        $exercice->setAnnee(2020);
 
         $form = $this->createForm(ExerciceType::class, $exercice);
         $form->handleRequest($request);
@@ -71,16 +81,27 @@ class ExerciceController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="exercice_delete", methods={"DELETE"})
+     * @Route("/delete", name="exercice_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Exercice $exercice): Response
+    public function delete(Request $request): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $exercice->getId(), $request->request->get('_token'))) {
+        $id = $request->get('idexercice');
+        $token = $request->get('_tokenauth');
+
+        $exercice = $this->exerciceRepository->find($id);
+
+        if ($exercice === null) {
+            $this->createNotFoundException();
+        }
+
+        $taxe = $exercice->getTaxe();
+
+        if ($this->isCsrfTokenValid('delete' . $exercice->getId(), $token)) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($exercice);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('exercice_index');
+        return $this->redirectToRoute('taxe_show', ['id'=>$taxe->getId()]);
     }
 }

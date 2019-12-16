@@ -3,6 +3,7 @@
 namespace AcMarche\Taxe\Controller;
 
 use AcMarche\Taxe\Entity\Taxe;
+use AcMarche\Taxe\Form\SearchTaxeType;
 use AcMarche\Taxe\Form\TaxeType;
 use AcMarche\Taxe\Repository\TaxeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,13 +17,38 @@ use Symfony\Component\Routing\Annotation\Route;
 class TaxeController extends AbstractController
 {
     /**
-     * @Route("/", name="taxe_index", methods={"GET"})
+     * @var TaxeRepository
      */
-    public function index(TaxeRepository $taxeRepository): Response
+    private $taxeRepository;
+
+    public function __construct(TaxeRepository $taxeRepository)
     {
-        return $this->render('taxe/index.html.twig', [
-            'taxes' => $taxeRepository->findAll(),
-        ]);
+        $this->taxeRepository = $taxeRepository;
+    }
+
+    /**
+     * @Route("/", name="taxe_index", methods={"GET","POST"})
+     */
+    public function index(Request $request): Response
+    {
+        $form = $this->createForm(SearchTaxeType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $taxes = $this->taxeRepository->search($data->getNom(), $data->getNomenclature());
+        } else {
+            $taxes = $this->taxeRepository->findAll();
+        }
+
+        return $this->render(
+            'taxe/index.html.twig',
+            [
+                'form' => $form->createView(),
+                'taxes' => $taxes,
+            ]
+        );
     }
 
     /**
@@ -42,10 +68,13 @@ class TaxeController extends AbstractController
             return $this->redirectToRoute('taxe_index');
         }
 
-        return $this->render('taxe/new.html.twig', [
-            'taxe' => $taxe,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'taxe/new.html.twig',
+            [
+                'taxe' => $taxe,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -53,9 +82,12 @@ class TaxeController extends AbstractController
      */
     public function show(Taxe $taxe): Response
     {
-        return $this->render('taxe/show.html.twig', [
-            'taxe' => $taxe,
-        ]);
+        return $this->render(
+            'taxe/show.html.twig',
+            [
+                'taxe' => $taxe,
+            ]
+        );
     }
 
     /**
@@ -72,10 +104,13 @@ class TaxeController extends AbstractController
             return $this->redirectToRoute('taxe_index');
         }
 
-        return $this->render('taxe/edit.html.twig', [
-            'taxe' => $taxe,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'taxe/edit.html.twig',
+            [
+                'taxe' => $taxe,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -83,7 +118,7 @@ class TaxeController extends AbstractController
      */
     public function delete(Request $request, Taxe $taxe): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$taxe->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $taxe->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($taxe);
             $entityManager->flush();

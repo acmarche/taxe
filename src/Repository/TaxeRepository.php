@@ -2,6 +2,7 @@
 
 namespace AcMarche\Taxe\Repository;
 
+use AcMarche\Taxe\Entity\Nomenclature;
 use AcMarche\Taxe\Entity\Taxe;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -19,32 +20,24 @@ class TaxeRepository extends ServiceEntityRepository
         parent::__construct($registry, Taxe::class);
     }
 
-    // /**
-    //  * @return Taxe[] Returns an array of Taxe objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Taxe[] Returns an array of Taxe objects
+     */
+    public function search(?string $nom, ?Nomenclature $nomenclature)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('taxe');
 
-    /*
-    public function findOneBySomeField($value): ?Taxe
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
+        if ($nom) {
+            $qb->andWhere('taxe.nom LIKE :nom')
+                ->setParameter('nom', '%' . $nom . '%');
+        }
+        if ($nomenclature) {
+            $qb->andWhere('taxe.nom LIKE :nomenclature')
+                ->setParameter('nomenclature', '%' . $nom . '%');
+        }
+        return $qb->orderBy('taxe.nom', 'ASC')
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
+
 }
