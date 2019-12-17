@@ -51,6 +51,9 @@ class TaxeExtension extends Extension implements PrependExtensionInterface
                     case 'vich_uploader':
                         $this->loadConfig($container, 'vich_uploader');
                         break;
+                    case 'api_platform':
+                        $this->loadConfig($container, 'api_platform');
+                        break;
                 }
             }
         }
