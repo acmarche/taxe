@@ -6,6 +6,7 @@ use AcMarche\Taxe\Entity\Taxe;
 use AcMarche\Taxe\Form\SearchTaxeType;
 use AcMarche\Taxe\Form\TaxeType;
 use AcMarche\Taxe\Repository\TaxeRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/taxe")
+ * @IsGranted("ROLE_TAXE")
  */
 class TaxeController extends AbstractController
 {
