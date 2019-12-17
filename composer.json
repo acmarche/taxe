@@ -10,7 +10,9 @@
     }
   ],
   "require": {
-    "php": "^7.3"
+    "php": "^7.3",
+    "vich/uploader-bundle": "^1.12",
+    "api-platform/api-pack": "^1.2"
   },
   "autoload": {
     "psr-4": {
