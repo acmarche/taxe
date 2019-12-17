@@ -43,7 +43,7 @@ class TaxeController extends AbstractController
         }
 
         return $this->render(
-            'taxe/index.html.twig',
+            '@Taxe/taxe/index.html.twig',
             [
                 'form' => $form->createView(),
                 'taxes' => $taxes,
@@ -69,7 +69,7 @@ class TaxeController extends AbstractController
         }
 
         return $this->render(
-            'taxe/new.html.twig',
+            '@Taxe/taxe/new.html.twig',
             [
                 'taxe' => $taxe,
                 'form' => $form->createView(),
@@ -83,7 +83,7 @@ class TaxeController extends AbstractController
     public function show(Taxe $taxe): Response
     {
         return $this->render(
-            'taxe/show.html.twig',
+            '@Taxe/taxe/show.html.twig',
             [
                 'taxe' => $taxe,
             ]
@@ -105,7 +105,7 @@ class TaxeController extends AbstractController
         }
 
         return $this->render(
-            'taxe/edit.html.twig',
+            '@Taxe/taxe/edit.html.twig',
             [
                 'taxe' => $taxe,
                 'form' => $form->createView(),

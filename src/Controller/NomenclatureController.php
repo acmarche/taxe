@@ -20,7 +20,7 @@ class NomenclatureController extends AbstractController
      */
     public function index(NomenclatureRepository $nomenclatureRepository): Response
     {
-        return $this->render('nomenclature/index.html.twig', [
+        return $this->render('@Taxe/nomenclature/index.html.twig', [
             'nomenclatures' => $nomenclatureRepository->findAll(),
         ]);
     }
@@ -42,7 +42,7 @@ class NomenclatureController extends AbstractController
             return $this->redirectToRoute('nomenclature_index');
         }
 
-        return $this->render('nomenclature/new.html.twig', [
+        return $this->render('@Taxe/nomenclature/new.html.twig', [
             'nomenclature' => $nomenclature,
             'form' => $form->createView(),
         ]);
@@ -53,7 +53,7 @@ class NomenclatureController extends AbstractController
      */
     public function show(Nomenclature $nomenclature): Response
     {
-        return $this->render('nomenclature/show.html.twig', [
+        return $this->render('@Taxe/nomenclature/show.html.twig', [
             'nomenclature' => $nomenclature,
         ]);
     }
@@ -72,7 +72,7 @@ class NomenclatureController extends AbstractController
             return $this->redirectToRoute('nomenclature_index');
         }
 
-        return $this->render('nomenclature/edit.html.twig', [
+        return $this->render('@Taxe/nomenclature/edit.html.twig', [
             'nomenclature' => $nomenclature,
             'form' => $form->createView(),
         ]);

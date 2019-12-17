@@ -48,7 +48,7 @@ class ExerciceController extends AbstractController
         }
 
         return $this->render(
-            'exercice/new.html.twig',
+            '@Taxe/exercice/new.html.twig',
             [
                 'exercice' => $exercice,
                 'taxe' => $taxe,
@@ -72,7 +72,7 @@ class ExerciceController extends AbstractController
         }
 
         return $this->render(
-            'exercice/edit.html.twig',
+            '@Taxe/exercice/edit.html.twig',
             [
                 'exercice' => $exercice,
                 'form' => $form->createView(),
