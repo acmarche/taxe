@@ -1,0 +1,9 @@
+doctrine:
+  orm:
+    mappings:
+      AcMarche\Taxe:
+        is_bundle: false
+        type: annotation
+        dir: '%kernel.project_dir%/src/AcMarche/Taxe/src/Entity'
+        prefix: 'AcMarche\Taxe'
+        alias: AcMarcheTaxe

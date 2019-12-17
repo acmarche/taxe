@@ -1,0 +1,11 @@
+{% extends '@Taxe/layout.ht.twig' %}
+
+{% block title %}New Taxe{% endblock %}
+
+{% block body %}
+    <h3>Nouvelle taxe</h3>
+
+    {{ include('@Taxe/taxe/_form.html.twig') }}
+
+    <a href="{{ path('taxe_index') }}">Retour</a>
+{% endblock %}

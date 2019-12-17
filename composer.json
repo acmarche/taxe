@@ -1,13 +1,23 @@
 {
-    "name": "acmarche/taxe",
-    "description": "Liste des taxes communales",
-    "type": "symfony-bundle",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "jfsenechal",
-            "email": "jfsenechal@gmail.com"
-        }
-    ],
-    "require": {}
+  "name": "acmarche/taxe",
+  "description": "Liste des taxes communales",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "jfsenechal",
+      "email": "jfsenechal@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "AcMarche\\Taxe\\": "src"
+    },
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
+  }
 }
