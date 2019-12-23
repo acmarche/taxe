@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/taxe")
- * @IsGranted("ROLE_TAXE")
+ * @IsGranted("ROLE_TAXE_ADMIN")
  */
 class TaxeController extends AbstractController
 {

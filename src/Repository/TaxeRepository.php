@@ -20,6 +20,18 @@ class TaxeRepository extends ServiceEntityRepository
         parent::__construct($registry, Taxe::class);
     }
 
+    public function findAllSorted()
+    {
+        $qb = $this->createQueryBuilder('taxe');
+
+        return
+            $qb
+                ->addOrderBy('taxe.position', 'ASC')
+                ->addOrderBy('taxe.nom', 'ASC')
+                ->getQuery()
+                ->getResult();
+    }
+
     /**
      * @return Taxe[] Returns an array of Taxe objects
      */

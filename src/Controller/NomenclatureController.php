@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/nomenclature")
- * @IsGranted("ROLE_TAXE")
+ * @IsGranted("ROLE_TAXE_ADMIN")
  */
 class NomenclatureController extends AbstractController
 {

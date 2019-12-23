@@ -1,1 +1,6 @@
-{{ form(form) }}
+{{ form_start(form) }}
+{{ form_errors(form) }}
+{{ form_widget(form) }}
+<input type="submit" name="search" value="Rechercher" class="btn btn-primary">
+{{ form_end(form) }}
+<br />

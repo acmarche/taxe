@@ -34,6 +34,11 @@ class Taxe
     private $nom;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $position;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AcMarche\Taxe\Entity\Nomenclature", inversedBy="taxes")
      */
     private $nomenclature;
@@ -46,6 +51,7 @@ class Taxe
     public function __construct()
     {
         $this->exercices = new ArrayCollection();
+        $this->position = 0;
     }
 
     public function __toString()
@@ -109,6 +115,18 @@ class Taxe
                 $exercice->setTaxe(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?int $position): self
+    {
+        $this->position = $position;
 
         return $this;
     }

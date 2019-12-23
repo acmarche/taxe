@@ -10,6 +10,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
+    use NameEntityTrait;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -21,6 +23,11 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $username;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $email;
 
     /**
      * @ORM\Column(type="json")
@@ -74,6 +81,34 @@ class User implements UserInterface
         return $this;
     }
 
+    public function addRole(string $role): self
+    {
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    public function removeRole(string $role): self
+    {
+        if (in_array($role, $this->roles, true)) {
+            $index = array_search($role, $this->roles);
+            unset($this->roles[$index]);
+        }
+
+        return $this;
+    }
+
+    public function hasRole(string $role): bool
+    {
+        if (in_array($role, $this->getRoles(), true)) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * @see UserInterface
      */
@@ -104,5 +139,16 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
     }
 }

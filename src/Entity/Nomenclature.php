@@ -94,4 +94,27 @@ class Nomenclature
 
         return $this;
     }
+
+    public function addTax(Taxe $tax): self
+    {
+        if (!$this->taxes->contains($tax)) {
+            $this->taxes[] = $tax;
+            $tax->setNomenclature($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTax(Taxe $tax): self
+    {
+        if ($this->taxes->contains($tax)) {
+            $this->taxes->removeElement($tax);
+            // set the owning side to null (unless already changed)
+            if ($tax->getNomenclature() === $this) {
+                $tax->setNomenclature(null);
+            }
+        }
+
+        return $this;
+    }
 }
