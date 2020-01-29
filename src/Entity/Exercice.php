@@ -29,7 +29,7 @@ class Exercice
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $annee;
 
@@ -66,12 +66,12 @@ class Exercice
         return $this->id;
     }
 
-    public function getAnnee(): ?int
+    public function getAnnee(): ?string
     {
         return $this->annee;
     }
 
-    public function setAnnee(int $annee): self
+    public function setAnnee(string $annee): self
     {
         $this->annee = $annee;
 
@@ -95,7 +95,7 @@ class Exercice
         return $this->fileName;
     }
 
-    public function setFileName(?string $fileName): self
+    public function setFileName(string $fileName): self
     {
         $this->fileName = $fileName;
 
