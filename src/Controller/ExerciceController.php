@@ -36,7 +36,7 @@ class ExerciceController extends AbstractController
     {
         $exercice = new Exercice();
         $exercice->setTaxe($taxe);
-        $exercice->setAnnee(2020);
+        $exercice->setAnnee('2020-2025');
 
         $form = $this->createForm(ExerciceType::class, $exercice);
         $form->handleRequest($request);
