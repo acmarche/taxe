@@ -56,6 +56,7 @@ class CreateuserCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $helper = $this->getHelper('question');
         $role = 'ROLE_TAXE_ADMIN';
+        $rolePatrimoine = 'ROLE_PATRIMOINE_ADMIN';
 
         $email = $input->getArgument('email');
         $name = $input->getArgument('name');
@@ -91,26 +92,25 @@ class CreateuserCommand extends Command
             $password = $helper->ask($input, $output, $question);
         }
 
-        if ($this->userRepository->findOneBy(['email' => $email])) {
-            $io->error('Un utilisateur existe déjà avec cette adresse email');
-
-            return 1;
-        }
+        $user = $this->userRepository->findOneBy(['email' => $email]);
 
         $questionAdministrator = new ConfirmationQuestion("Administrateur ? [Y,n] \n", true);
         $administrator = $helper->ask($input, $output, $questionAdministrator);
 
-        $user = new User();
-        $user->setEmail($email);
-        $user->setUsername($email);
-        $user->setNom($name);
-        $user->setPassword($this->userPasswordEncoder->encodePassword($user, $password));
+        if (!$user) {
+            $user = new User();
+            $user->setEmail($email);
+            $user->setUsername($email);
+            $user->setNom($name);
+            $user->setPassword($this->userPasswordEncoder->encodePassword($user, $password));
+            $this->entityManager->persist($user);
+        }
 
         if ($administrator) {
             $user->addRole($role);
+            $user->addRole($rolePatrimoine);
         }
 
-        $this->entityManager->persist($user);
         $this->entityManager->flush();
 
         $io->success("L'utilisateur a bien été créé");
