@@ -4,7 +4,7 @@ namespace AcMarche\Taxe\Repository;
 
 use AcMarche\Taxe\Entity\Exercice;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Exercice|null find($id, $lockMode = null, $lockVersion = null)
