@@ -19,14 +19,15 @@ class SearchTaxeType extends AbstractType
                 'nom',
                 SearchType::class,
                 [
-                    'required' => false
+                    'required' => false,
                 ]
             )
             ->add(
                 'nomenclature',
                 EntityType::class,
                 [
-                    'class' => Nomenclature::class
+                    'required' => false,
+                    'class' => Nomenclature::class,
                 ]
             );
     }
