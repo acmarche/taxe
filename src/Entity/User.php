@@ -40,9 +40,30 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @var string|null
+     */
+    private $plain_password;
+
     public function __toString()
     {
         return $this->nom.' '.$this->prenom;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPlainPassword(): ?string
+    {
+        return $this->plain_password;
+    }
+
+    /**
+     * @param string|null $plain_password
+     */
+    public function setPlainPassword(?string $plain_password): void
+    {
+        $this->plain_password = $plain_password;
     }
 
     public function getId(): ?int

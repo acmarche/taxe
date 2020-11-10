@@ -107,8 +107,7 @@ class Nomenclature
 
     public function removeTax(Taxe $tax): self
     {
-        if ($this->taxes->contains($tax)) {
-            $this->taxes->removeElement($tax);
+        if ($this->taxes->removeElement($tax)) {
             // set the owning side to null (unless already changed)
             if ($tax->getNomenclature() === $this) {
                 $tax->setNomenclature(null);

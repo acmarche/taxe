@@ -108,8 +108,7 @@ class Taxe
 
     public function removeExercice(Exercice $exercice): self
     {
-        if ($this->exercices->contains($exercice)) {
-            $this->exercices->removeElement($exercice);
+        if ($this->exercices->removeElement($exercice)) {
             // set the owning side to null (unless already changed)
             if ($exercice->getTaxe() === $this) {
                 $exercice->setTaxe(null);

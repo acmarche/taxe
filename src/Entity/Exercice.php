@@ -107,7 +107,7 @@ class Exercice
         return $this->file;
     }
 
-    public function setFile(File $file): self
+    public function setFile(?File $file): self
     {
         if ($file) {
             // if 'updatedAt' is not defined in your entity, use another property
