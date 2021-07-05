@@ -1,0 +1,8 @@
+AcMarche\Taxe\Entity\Nomenclature:
+  attributes:
+    id:
+      groups: [ 'group1' ]
+    nom:
+      groups: [ 'group1' ]
+    taxes:
+      groups: [ 'group1' ]

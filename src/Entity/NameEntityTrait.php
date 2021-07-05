@@ -4,6 +4,8 @@
 namespace AcMarche\Taxe\Entity;
 
 
+use Doctrine\ORM\Mapping as ORM;
+
 trait NameEntityTrait
 {
     /**

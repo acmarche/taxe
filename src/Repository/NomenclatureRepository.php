@@ -19,32 +19,19 @@ class NomenclatureRepository extends ServiceEntityRepository
         parent::__construct($registry, Nomenclature::class);
     }
 
-    // /**
-    //  * @return Nomenclature[] Returns an array of Nomenclature objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Nomenclature[] Returns an array of Nomenclature objects
+     */
+    public function findAllGruped()
     {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('n.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('nomenclature')
+            ->leftJoin('nomenclature.taxes', 'taxes', 'WITH')
+            ->leftJoin('taxes.exercices', 'exercices', 'WITH')
+            ->addSelect('taxes', 'exercices')
+            ->addOrderBy('nomenclature.nom', 'ASC')
+            ->addOrderBy('taxes.position', 'ASC')
+            ->addOrderBy('exercices.annee', 'DESC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Nomenclature
-    {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

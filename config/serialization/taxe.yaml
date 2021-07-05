@@ -1,0 +1,10 @@
+AcMarche\Taxe\Entity\Taxe:
+  attributes:
+    id:
+      groups: [ 'group1' ]
+    nom:
+      groups: [ 'group1' ]
+    position:
+      groups: [ 'group1' ]
+    exercices:
+      groups: [ 'group1' ]

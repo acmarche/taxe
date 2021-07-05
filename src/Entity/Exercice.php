@@ -10,14 +10,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Entity(repositoryClass="AcMarche\Taxe\Repository\ExerciceRepository")
  * @Vich\Uploadable
- * @ApiResource(
- *     collectionOperations={
- *          "get"
- *     },
- *     itemOperations={
- *          "get"
- *     }
- * )
  */
 class Exercice
 {
@@ -56,9 +48,28 @@ class Exercice
      */
     private $updatedAt;
 
+    private $nom;//api demande ??
+    private $position;//api demande ??
+
     public function __construct()
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPosition()
+    {
+        return $this->position;
     }
 
     public function getId(): ?int

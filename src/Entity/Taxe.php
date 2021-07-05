@@ -9,15 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AcMarche\Taxe\Repository\TaxeRepository")
- * @ApiResource(
- *     collectionOperations={
- *          "get"
- *     },
- *     itemOperations={
- *          "get"
- *     }
- * )
- * normalizationContext={"groups"={"fiche:read"}, "swagger_definition_name"="Read", "enable_max_depth"="true"}
+
  */
 class Taxe
 {

@@ -1,0 +1,8 @@
+AcMarche\Taxe\Entity\Exercice:
+  attributes:
+    id:
+      groups: [ 'group1' ]
+    annee:
+      groups: [ 'group1' ]
+    fileName:
+      groups: [ 'group1' ]

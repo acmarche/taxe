@@ -9,14 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AcMarche\Taxe\Repository\NomenclatureRepository")
- * @ApiResource(
- *     collectionOperations={
- *          "get"
- *     },
- *     itemOperations={
- *          "get"
- *     }
- * )
+
  */
 class Nomenclature
 {
