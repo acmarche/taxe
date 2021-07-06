@@ -26,6 +26,11 @@ class Nomenclature
     private $nom;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $position;
+
+    /**
      * @ORM\OneToMany(targetEntity="AcMarche\Taxe\Entity\Taxe", mappedBy="nomenclature")
      */
     private $taxes;
@@ -53,6 +58,18 @@ class Nomenclature
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?int $position): self
+    {
+        $this->position = $position;
 
         return $this;
     }
