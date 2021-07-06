@@ -28,7 +28,7 @@ class NomenclatureRepository extends ServiceEntityRepository
             ->leftJoin('nomenclature.taxes', 'taxes', 'WITH')
             ->leftJoin('taxes.exercices', 'exercices', 'WITH')
             ->addSelect('taxes', 'exercices')
-            ->addOrderBy('nomenclature.nom', 'ASC')
+            ->addOrderBy('nomenclature.position', 'ASC')
             ->addOrderBy('taxes.position', 'ASC')
             ->addOrderBy('exercices.annee', 'DESC')
             ->getQuery()
