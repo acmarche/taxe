@@ -43,7 +43,7 @@ class TaxeRepository extends ServiceEntityRepository
             $qb->andWhere('taxe.nom LIKE :nom')
                 ->setParameter('nom', '%' . $nom . '%');
         }
-        if ($nomenclature) {
+        if ($nomenclature !== null) {
             $qb->andWhere('taxe.nom LIKE :nomenclature')
                 ->setParameter('nomenclature', '%' . $nom . '%');
         }

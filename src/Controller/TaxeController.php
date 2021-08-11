@@ -2,6 +2,7 @@
 
 namespace AcMarche\Taxe\Controller;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use AcMarche\Taxe\Entity\Taxe;
 use AcMarche\Taxe\Form\SearchTaxeType;
 use AcMarche\Taxe\Form\TaxeType;
@@ -18,10 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TaxeController extends AbstractController
 {
-    /**
-     * @var TaxeRepository
-     */
-    private $taxeRepository;
+    private TaxeRepository $taxeRepository;
 
     public function __construct(TaxeRepository $taxeRepository)
     {

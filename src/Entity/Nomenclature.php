@@ -18,22 +18,22 @@ class Nomenclature
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=120)
      */
-    private $nom;
+    private ?string $nom = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $position;
+    private ?int $position = null;
 
     /**
      * @ORM\OneToMany(targetEntity="AcMarche\Taxe\Entity\Taxe", mappedBy="nomenclature")
      */
-    private $taxes;
+    private Collection $taxes;
 
     public function __construct()
     {
@@ -50,7 +50,7 @@ class Nomenclature
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getNom(): string
     {
         return $this->nom;
     }
@@ -77,7 +77,7 @@ class Nomenclature
     /**
      * @return Collection|Taxe[]
      */
-    public function getTaxes(): Collection
+    public function getTaxes(): ArrayCollection
     {
         return $this->taxes;
     }
@@ -117,11 +117,9 @@ class Nomenclature
 
     public function removeTax(Taxe $tax): self
     {
-        if ($this->taxes->removeElement($tax)) {
-            // set the owning side to null (unless already changed)
-            if ($tax->getNomenclature() === $this) {
-                $tax->setNomenclature(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->taxes->removeElement($tax) && $tax->getNomenclature() === $this) {
+            $tax->setNomenclature(null);
         }
 
         return $this;

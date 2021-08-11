@@ -18,27 +18,27 @@ class Taxe
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=200)
      */
-    private $nom;
+    private ?string $nom = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $position;
+    private ?int $position = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="AcMarche\Taxe\Entity\Nomenclature", inversedBy="taxes")
      */
-    private $nomenclature;
+    private ?Nomenclature $nomenclature = null;
 
     /**
      * @ORM\OneToMany(targetEntity="AcMarche\Taxe\Entity\Exercice", mappedBy="taxe", orphanRemoval=true)
      */
-    private $exercices;
+    private Collection $exercices;
 
     public function __construct()
     {
@@ -56,7 +56,7 @@ class Taxe
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getNom(): string
     {
         return $this->nom;
     }
@@ -83,7 +83,7 @@ class Taxe
     /**
      * @return Collection|Exercice[]
      */
-    public function getExercices(): Collection
+    public function getExercices(): ArrayCollection
     {
         return $this->exercices;
     }
@@ -100,17 +100,15 @@ class Taxe
 
     public function removeExercice(Exercice $exercice): self
     {
-        if ($this->exercices->removeElement($exercice)) {
-            // set the owning side to null (unless already changed)
-            if ($exercice->getTaxe() === $this) {
-                $exercice->setTaxe(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->exercices->removeElement($exercice) && $exercice->getTaxe() === $this) {
+            $exercice->setTaxe(null);
         }
 
         return $this;
     }
 
-    public function getPosition(): ?int
+    public function getPosition(): int
     {
         return $this->position;
     }

@@ -15,7 +15,7 @@ class UserEditType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $roles = ['ROLE_TAXE_ADMIN', 'ROLE_PATRIMOINE_ADMIN', 'ROLE_ENQUETE_ADMIN'];
         $builder
@@ -31,7 +31,7 @@ class UserEditType extends AbstractType
             );
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return UserType::class;
     }
@@ -39,7 +39,7 @@ class UserEditType extends AbstractType
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             array(

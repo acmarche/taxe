@@ -2,6 +2,8 @@
 
 namespace AcMarche\Taxe\Entity;
 
+use DateTime;
+use DateTimeInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -18,42 +20,40 @@ class Exercice
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string")
      */
-    private $annee;
+    private ?string $annee = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="AcMarche\Taxe\Entity\Taxe", inversedBy="exercices")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $taxe;
+    private ?Taxe $taxe = null;
 
     /**
      * @ORM\Column(type="string", length=150)
      */
-    private $fileName;
+    private ?string $fileName = null;
 
     /**
      * @Vich\UploadableField(mapping="taxes", fileNameProperty="fileName")
-     * @var File
      */
-    private $file;
+    private ?File $file = null;
 
     /**
      * @ORM\Column(type="datetime")
-     * @var \DateTime
      */
-    private $updatedAt;
+    private \DateTimeInterface $updatedAt;
 
     private $nom;//api demande ??
     private $position;//api demande ??
 
     public function __construct()
     {
-        $this->updatedAt = new \DateTime();
+        $this->updatedAt = new DateTime();
     }
 
     /**
@@ -77,7 +77,7 @@ class Exercice
         return $this->id;
     }
 
-    public function getAnnee(): ?string
+    public function getAnnee(): string
     {
         return $this->annee;
     }
@@ -113,16 +113,16 @@ class Exercice
         return $this;
     }
 
-    public function getFile(): ?File
+    public function getFile(): File
     {
         return $this->file;
     }
 
     public function setFile(?File $file): self
     {
-        if ($file) {
+        if ($file !== null) {
             // if 'updatedAt' is not defined in your entity, use another property
-            $this->updatedAt = new \DateTime('now');
+            $this->updatedAt = new DateTime('now');
         }
 
         $this->file = $file;
@@ -130,12 +130,12 @@ class Exercice
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): DateTime
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 

@@ -2,6 +2,7 @@
 
 namespace AcMarche\Taxe\Controller;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use AcMarche\Taxe\Entity\User;
 use AcMarche\Taxe\Form\UserEditType;
 use AcMarche\Taxe\Form\UserType;
@@ -19,11 +20,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class UserController extends AbstractController
 {
-    private $userRepository;
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    private $passwordEncoder;
+    private UserRepository $userRepository;
+    private UserPasswordEncoderInterface $passwordEncoder;
 
     public function __construct(
         UserRepository $userRepository,
@@ -39,7 +37,7 @@ class UserController extends AbstractController
      * @Route("/", name="taxe_user", methods={"GET"})
      *
      */
-    public function index()
+    public function index(): Response
     {
         $users = $this->userRepository->findBy([], ['nom' => 'ASC']);
 
@@ -57,7 +55,7 @@ class UserController extends AbstractController
      * @Route("/new", name="taxe_user_new", methods={"GET","POST"})
      *
      */
-    public function new(Request $request)
+    public function new(Request $request): Response
     {
         $user = new User();
 
@@ -89,7 +87,7 @@ class UserController extends AbstractController
      * @Route("/{id}", name="taxe_user_show", methods={"GET"})
      *
      */
-    public function show(User $user)
+    public function show(User $user): Response
     {
         return $this->render(
             '@Taxe/user/show.html.twig',
@@ -103,7 +101,7 @@ class UserController extends AbstractController
      * @Route("/{id}/edit", name="taxe_user_edit", methods={"GET","POST"})
      *
      */
-    public function edit(Request $request, User $user)
+    public function edit(Request $request, User $user): Response
     {
         $editForm = $this->createForm(UserEditType::class, $user);
 

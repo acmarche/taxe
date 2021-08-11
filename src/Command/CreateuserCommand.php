@@ -2,6 +2,7 @@
 
 namespace AcMarche\Taxe\Command;
 
+use RuntimeException;
 use AcMarche\Taxe\Entity\User;
 use AcMarche\Taxe\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,18 +19,9 @@ class CreateuserCommand extends Command
 {
     protected static $defaultName = 'taxe:create-user';
 
-    /**
-     * @var UserRepository
-     */
-    private $userRepository;
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    private $userPasswordEncoder;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private UserRepository $userRepository;
+    private UserPasswordEncoderInterface $userPasswordEncoder;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(
         UserRepository $userRepository,
@@ -42,7 +34,7 @@ class CreateuserCommand extends Command
         $this->userRepository = $userRepository;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Création d\'un utilisateur')
@@ -51,7 +43,7 @@ class CreateuserCommand extends Command
             ->addArgument('password', InputArgument::OPTIONAL, 'Password');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $helper = $this->getHelper('question');
@@ -81,7 +73,7 @@ class CreateuserCommand extends Command
             $question->setValidator(
                 function ($password) {
                     if (strlen($password) < 4) {
-                        throw new \RuntimeException(
+                        throw new RuntimeException(
                             'Le mot de passe doit faire minimum 4 caractères'
                         );
                     }
@@ -97,7 +89,7 @@ class CreateuserCommand extends Command
         $questionAdministrator = new ConfirmationQuestion("Administrateur ? [Y,n] \n", true);
         $administrator = $helper->ask($input, $output, $questionAdministrator);
 
-        if (!$user) {
+        if ($user === null) {
             $user = new User();
             $user->setEmail($email);
             $user->setUsername($email);

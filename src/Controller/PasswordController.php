@@ -2,6 +2,7 @@
 
 namespace AcMarche\Taxe\Controller;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use AcMarche\Taxe\Entity\User;
 use AcMarche\Taxe\Form\UserPasswordType;
 use AcMarche\Taxe\Repository\UserRepository;
@@ -17,12 +18,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class PasswordController extends AbstractController
 {
-    private $userRepository;
+    private UserRepository $userRepository;
 
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    private $passwordEncoder;
+    private UserPasswordEncoderInterface $passwordEncoder;
 
     public function __construct(
         UserRepository $userRepository,
@@ -36,7 +34,7 @@ class PasswordController extends AbstractController
      * @Route("/password/{id}", name="taxe_user_password", methods={"GET","POST"})
      *
      */
-    public function password(Request $request, User $user)
+    public function password(Request $request, User $user): Response
     {
         $em = $this->getDoctrine()->getManager();
 

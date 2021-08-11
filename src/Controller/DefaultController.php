@@ -16,7 +16,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="taxe_home")
      */
-    public function index()
+    public function index(): Response
     {
         return new Response('coucou');
     }

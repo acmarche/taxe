@@ -19,14 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SortController extends AbstractController
 {
-    /**
-     * @var TaxeRepository
-     */
-    private $taxeRepository;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private TaxeRepository $taxeRepository;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(TaxeRepository $taxeRepository, EntityManagerInterface $entityManager)
     {
@@ -37,7 +31,7 @@ class SortController extends AbstractController
     /**
      * @Route("/", name="taxe_tri")
      */
-    public function index()
+    public function index(): Response
     {
         $taxes = $this->taxeRepository->findAllSorted();
 
@@ -54,7 +48,7 @@ class SortController extends AbstractController
      *
      * @Route("/request", name="taxe_request_trier", methods={"GET", "POST"})
      */
-    public function trier(Request $request)
+    public function trier(Request $request): Response
     {
         $isAjax = $request->isXmlHttpRequest();
 
@@ -63,7 +57,7 @@ class SortController extends AbstractController
             if (is_array($news)) {
                 foreach ($news as $position => $newsId) {
                     $taxe = $this->taxeRepository->find($newsId);
-                    if ($taxe) {
+                    if ($taxe !== null) {
                         $taxe->setPosition($position);
                     }
                 }

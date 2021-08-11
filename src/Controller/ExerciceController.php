@@ -2,6 +2,7 @@
 
 namespace AcMarche\Taxe\Controller;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use AcMarche\Taxe\Entity\Exercice;
 use AcMarche\Taxe\Entity\Taxe;
 use AcMarche\Taxe\Form\ExerciceType;
@@ -19,10 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ExerciceController extends AbstractController
 {
 
-    /**
-     * @var ExerciceRepository
-     */
-    private $exerciceRepository;
+    private ExerciceRepository $exerciceRepository;
 
     public function __construct(ExerciceRepository $exerciceRepository)
     {
@@ -92,7 +90,7 @@ class ExerciceController extends AbstractController
 
         $exercice = $this->exerciceRepository->find($id);
 
-        if ($exercice === null) {
+        if (!$exercice instanceof Exercice) {
             $this->createNotFoundException();
         }
 
