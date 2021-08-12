@@ -46,6 +46,9 @@ class TaxeExtension extends Extension implements PrependExtensionInterface
                     case 'twig':
                         $this->loadConfig($container, 'twig');
                         break;
+                    case 'framework':
+                        $this->loadConfig($container, 'security');
+                        break;
                     case 'vich_uploader':
                         $this->loadConfig($container, 'vich_uploader');
                         break;

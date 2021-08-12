@@ -1,0 +1,20 @@
+security:
+  encoders:
+    AcMarche\Taxe\Entity\User:
+      algorithm: auto
+
+  # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+  providers:
+    # used to reload user from session & other features (e.g. switch_user)
+    taxe_user_provider:
+      entity:
+        class: AcMarche\Taxe\Entity\User
+        property: username
+  firewalls:
+    main:
+      #anonymous: lazy
+      provider: taxe_user_provider
+      custom_authenticators:
+        - AcMarche\Extranet\Security\ExtranetAutenticator
+      logout:
+        path: app_logout
