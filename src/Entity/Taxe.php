@@ -56,7 +56,7 @@ class Taxe
         return $this->id;
     }
 
-    public function getNom(): string
+    public function getNom(): ?string
     {
         return $this->nom;
     }
@@ -108,7 +108,7 @@ class Taxe
         return $this;
     }
 
-    public function getPosition(): int
+    public function getPosition(): ?int
     {
         return $this->position;
     }
