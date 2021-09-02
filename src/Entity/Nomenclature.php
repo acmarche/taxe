@@ -33,7 +33,7 @@ class Nomenclature
     /**
      * @ORM\OneToMany(targetEntity="AcMarche\Taxe\Entity\Taxe", mappedBy="nomenclature")
      */
-    private Collection $taxes;
+    private iterable $taxes;
 
     public function __construct()
     {
@@ -77,7 +77,7 @@ class Nomenclature
     /**
      * @return Collection|Taxe[]
      */
-    public function getTaxes(): ArrayCollection
+    public function getTaxes(): iterable
     {
         return $this->taxes;
     }

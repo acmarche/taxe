@@ -38,7 +38,7 @@ class Taxe
     /**
      * @ORM\OneToMany(targetEntity="AcMarche\Taxe\Entity\Exercice", mappedBy="taxe", orphanRemoval=true)
      */
-    private Collection $exercices;
+    private iterable $exercices;
 
     public function __construct()
     {
@@ -83,7 +83,7 @@ class Taxe
     /**
      * @return Collection|Exercice[]
      */
-    public function getExercices(): ArrayCollection
+    public function getExercices(): iterable
     {
         return $this->exercices;
     }

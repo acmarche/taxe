@@ -48,26 +48,20 @@ class Exercice
      */
     private \DateTimeInterface $updatedAt;
 
-    private $nom;//api demande ??
-    private $position;//api demande ??
+    private ?string $nom;//api demande ??
+    private ?int $position;//api demande ??
 
     public function __construct()
     {
         $this->updatedAt = new DateTime();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNom()
+    public function getNom(): ?string
     {
         return $this->nom;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPosition()
+    public function getPosition(): ?int
     {
         return $this->position;
     }
