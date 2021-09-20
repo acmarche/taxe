@@ -18,6 +18,6 @@ class DefaultController extends AbstractController
      */
     public function index(): Response
     {
-        return new Response('coucou');
+        return $this->redirectToRoute('taxe_index');
     }
 }

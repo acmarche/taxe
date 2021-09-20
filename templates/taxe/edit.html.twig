@@ -3,11 +3,16 @@
 {% block title %}Edit Taxe{% endblock %}
 
 {% block body %}
-    <h3>Edit Taxe</h3>
+    <div class="card">
+        <h3 class="card-header">Edit Taxe</h3>
 
-    {{ include('@Taxe/taxe/_form.html.twig', {'button_label': 'Update'}) }}
+        <div class="card-body">
 
-    <a href="{{ path('taxe_index') }}">Retour</a>
+            {{ include('@Taxe/taxe/_form.html.twig', {'button_label': 'Update'}) }}
+
+            <a href="{{ path('taxe_index') }}">Retour</a>
+        </div>
+    </div>
 
     {{ include('@Taxe/taxe/_delete_form.html.twig') }}
 {% endblock %}
