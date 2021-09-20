@@ -107,7 +107,7 @@ class Exercice
         return $this;
     }
 
-    public function getFile(): File
+    public function getFile(): ?File
     {
         return $this->file;
     }
