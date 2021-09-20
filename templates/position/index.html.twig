@@ -11,9 +11,15 @@
                 Cliquez sur une taxe et maintenez le clic tout en clissant la souris pour changer l'ordre
             </div>
 
-            <ul class="list-group" id="sortable">
+            <ul class="list-group" {{ stimulus_controller('sortable', {'updateUrl': path('taxe_request_trier')}) }}
+                data-controller="sortable"
+                data-sortable-animation-value="150">
                 {% for taxe in taxes %}
-                    <li class="list-group-item" id="news-{{ taxe.id }}"><i class="fas fa-bars"></i>
+                    <li
+                            data-id="{{ taxe.id }}"
+                            class="list-group-item"
+                            style="cursor: pointer;">
+                        <i class="fas fa-bars"></i>
                         <a href="{{ path('taxe_show', {'id': taxe.id}) }}">
                             {{ taxe.nom }}
                         </a>
@@ -27,39 +33,4 @@
         </div>
     </div>
 
-{% endblock %}
-
-{% block scripts %}
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            $("#sortable").sortable({
-                // limitons les déplacements sur l'axe des ordonnées, ce sera plus propre
-                axis: 'y',
-                update: function (event, ui) {
-                    // Construit un tableau des ids des stories
-                    serial = $(this).sortable('serialize');
-                    // Appelle une action en ajax
-                    $.ajax({
-                        url: '{{ path('taxe_request_trier') }}',
-                        type: "post",
-                        data: serial,
-                        success: function (html) {
-                            $('#success').append(html);
-                            $('#success').fadeIn(500);
-                            //       $('#success').fadeOut(2000);
-                        },
-                        error: function () {
-                            alert("Oups le tri ne s'est pas enregistré");
-                        }
-                    })
-                }
-            });
-
-            $("#sortable").disableSelection();
-        });
-
-    </script>
 {% endblock %}

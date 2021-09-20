@@ -50,26 +50,17 @@ class SortController extends AbstractController
      */
     public function trier(Request $request): Response
     {
-        $isAjax = $request->isXmlHttpRequest();
-
-        if ($isAjax) {
-            $news = $request->request->get('news');
-            if (is_array($news)) {
-                foreach ($news as $position => $newsId) {
-                    $taxe = $this->taxeRepository->find($newsId);
-                    if ($taxe !== null) {
-                        $taxe->setPosition($position);
-                    }
-                }
-                $this->entityManager->flush();
-
-                return new Response('<div class="alert alert-success">Tri enregistré</div>');
+        $data = json_decode($request->getContent());
+        $taxes = $data->taxes;
+        foreach ($taxes as $position => $taxeId) {
+            $taxe = $this->taxeRepository->find($taxeId);
+            if ($taxe !== null) {
+                $taxe->setPosition($position);
             }
-
-            return new Response('<div class="alert alert-error">Erreur</div>');
         }
+        $this->entityManager->flush();
 
-         return new Response('<div class="alert alert-error">Erreur</div>');
+        return $this->json('<div class="alert alert-success">Tri enregistré</div>');
     }
 
 }
