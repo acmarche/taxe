@@ -114,11 +114,11 @@ class TaxeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="taxe_delete", methods={"DELETE"})
+     * @Route("/{id}/delete", name="taxe_delete", methods={"POST"})
      */
     public function delete(Request $request, Taxe $taxe): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $taxe->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$taxe->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($taxe);
             $entityManager->flush();

@@ -8,12 +8,11 @@
             </div>
             <div class="modal-body">
                 Ëtes vous sur de supprimer la taxe {{ taxe.nom }} ?
-        </div>
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler
                 </button>
                 <form method="post" action="{{ path('taxe_delete', {'id': taxe.id}) }}">
-                    <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ taxe.id) }}">
                     <button type="submit" class="btn btn-danger">Supprimer</button>
                 </form>

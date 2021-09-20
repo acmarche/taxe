@@ -81,7 +81,7 @@ class NomenclatureController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="nomenclature_delete", methods={"DELETE"})
+     * @Route("/{id}/delete", name="nomenclature_delete", methods={"POST"})
      */
     public function delete(Request $request, Nomenclature $nomenclature): Response
     {

@@ -81,7 +81,7 @@ class ExerciceController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="exercice_delete", methods={"DELETE"})
+     * @Route("/delete", name="exercice_delete", methods={"POST"})
      */
     public function delete(Request $request): Response
     {
@@ -96,12 +96,12 @@ class ExerciceController extends AbstractController
 
         $taxe = $exercice->getTaxe();
 
-        if ($this->isCsrfTokenValid('delete' . $exercice->getId(), $token)) {
+        if ($this->isCsrfTokenValid('delete'.$exercice->getId(), $token)) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($exercice);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('taxe_show', ['id'=>$taxe->getId()]);
+        return $this->redirectToRoute('taxe_show', ['id' => $taxe->getId()]);
     }
 }

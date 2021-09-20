@@ -25,7 +25,8 @@
                         <td>
                             <button name="coucou" type="button" class="btnDelete btn btn-danger btn-sm"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#deleteAuthorization" data-id="{{ exercice.id }}"
+                                    data-bs-target="#deleteAuthorization"
+                                    data-id="{{ exercice.id }}"
                                     data-token="{{ csrf_token('delete' ~ exercice.id) }}">
                                 <i class="fas fa-trash"></i> Supprimer
                             </button>
