@@ -9,8 +9,8 @@ use AcMarche\Taxe\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/user/password")
@@ -20,11 +20,11 @@ class PasswordController extends AbstractController
 {
     private UserRepository $userRepository;
 
-    private UserPasswordEncoderInterface $passwordEncoder;
+    private UserPasswordHasherInterface $passwordEncoder;
 
     public function __construct(
         UserRepository $userRepository,
-        UserPasswordEncoderInterface $passwordEncoder
+        UserPasswordHasherInterface $passwordEncoder
     ) {
         $this->userRepository = $userRepository;
         $this->passwordEncoder = $passwordEncoder;
@@ -43,7 +43,7 @@ class PasswordController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $this->passwordEncoder->encodePassword($user, $form->getData()->getPlainPassword());
+            $password = $this->passwordEncoder->hashPassword($user, $form->getData()->getPlainPassword());
             $user->setPassword($password);
             $em->flush();
 
