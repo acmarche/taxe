@@ -2,7 +2,7 @@
 
 namespace AcMarche\Taxe\Controller;
 
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use AcMarche\Taxe\Entity\User;
 use AcMarche\Taxe\Form\UserPasswordType;
 use AcMarche\Taxe\Repository\UserRepository;
