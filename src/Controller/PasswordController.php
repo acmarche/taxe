@@ -2,46 +2,31 @@
 
 namespace AcMarche\Taxe\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
 use AcMarche\Taxe\Entity\User;
 use AcMarche\Taxe\Form\UserPasswordType;
 use AcMarche\Taxe\Repository\UserRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/user/password")
- * @IsGranted("ROLE_TAXE_ADMIN")
- */
+#[Route(path: '/user/password')]
+#[IsGranted(data: 'ROLE_TAXE_ADMIN')]
 class PasswordController extends AbstractController
 {
-    private UserRepository $userRepository;
-
-    private UserPasswordHasherInterface $passwordEncoder;
-
-    public function __construct(
-        UserRepository $userRepository,
-        UserPasswordHasherInterface $passwordEncoder
-    ) {
-        $this->userRepository = $userRepository;
-        $this->passwordEncoder = $passwordEncoder;
+    public function __construct(private UserRepository $userRepository, private UserPasswordHasherInterface $passwordEncoder, private ManagerRegistry $managerRegistry)
+    {
     }
 
-    /**
-     * @Route("/password/{id}", name="taxe_user_password", methods={"GET","POST"})
-     *
-     */
+    #[Route(path: '/password/{id}', name: 'taxe_user_password', methods: ['GET', 'POST'])]
     public function password(Request $request, User $user): Response
     {
-        $em = $this->getDoctrine()->getManager();
-
+        $em = $this->managerRegistry->getManager();
         $form = $this->createForm(UserPasswordType::class, $user);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $this->passwordEncoder->hashPassword($user, $form->getData()->getPlainPassword());
             $user->setPassword($password);
@@ -60,5 +45,4 @@ class PasswordController extends AbstractController
             ]
         );
     }
-
 }

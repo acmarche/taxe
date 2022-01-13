@@ -2,37 +2,24 @@
 
 namespace AcMarche\Taxe\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use AcMarche\Taxe\Repository\NomenclatureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 
-/**
- * @ORM\Entity(repositoryClass="AcMarche\Taxe\Repository\NomenclatureRepository")
-
- */
-class Nomenclature
+#[ORM\Entity(repositoryClass: NomenclatureRepository::class)]
+class Nomenclature implements Stringable
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
-
-    /**
-     * @ORM\Column(type="string", length=120)
-     */
+    #[ORM\Column(type: 'string', length: 120)]
     private ?string $nom = null;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $position = null;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AcMarche\Taxe\Entity\Taxe", mappedBy="nomenclature")
-     */
+    #[ORM\OneToMany(targetEntity: Taxe::class, mappedBy: 'nomenclature')]
     private iterable $taxes;
 
     public function __construct()
@@ -40,9 +27,9 @@ class Nomenclature
         $this->taxes = new ArrayCollection();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->nom;
+        return (string) $this->nom;
     }
 
     public function getId(): ?int
@@ -50,7 +37,7 @@ class Nomenclature
         return $this->id;
     }
 
-    public function getNom(): string
+    public function getNom(): ?string
     {
         return $this->nom;
     }

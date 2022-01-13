@@ -2,39 +2,31 @@
 
 namespace AcMarche\Taxe\Controller;
 
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use AcMarche\Taxe\Entity\Taxe;
 use AcMarche\Taxe\Form\SearchTaxeType;
 use AcMarche\Taxe\Form\TaxeType;
 use AcMarche\Taxe\Repository\TaxeRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/taxe")
- * @IsGranted("ROLE_TAXE_ADMIN")
- */
+#[Route(path: '/taxe')]
+#[IsGranted(data: 'ROLE_TAXE_ADMIN')]
 class TaxeController extends AbstractController
 {
-    private TaxeRepository $taxeRepository;
-
-    public function __construct(TaxeRepository $taxeRepository)
+    public function __construct(private TaxeRepository $taxeRepository, private ManagerRegistry $managerRegistry)
     {
-        $this->taxeRepository = $taxeRepository;
     }
 
-    /**
-     * @Route("/", name="taxe_index", methods={"GET","POST"})
-     */
+    #[Route(path: '/', name: 'taxe_index', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
     {
         $form = $this->createForm(SearchTaxeType::class);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $taxes = $this->taxeRepository->search($data->getNom(), $data->getNomenclature());
@@ -51,17 +43,14 @@ class TaxeController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/new", name="taxe_new", methods={"GET","POST"})
-     */
+    #[Route(path: '/new', name: 'taxe_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $taxe = new Taxe();
         $form = $this->createForm(TaxeType::class, $taxe);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->managerRegistry->getManager();
             $entityManager->persist($taxe);
             $entityManager->flush();
 
@@ -77,9 +66,7 @@ class TaxeController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/{id}", name="taxe_show", methods={"GET"})
-     */
+    #[Route(path: '/{id}', name: 'taxe_show', methods: ['GET'])]
     public function show(Taxe $taxe): Response
     {
         return $this->render(
@@ -90,16 +77,13 @@ class TaxeController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/{id}/edit", name="taxe_edit", methods={"GET","POST"})
-     */
+    #[Route(path: '/{id}/edit', name: 'taxe_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Taxe $taxe): Response
     {
         $form = $this->createForm(TaxeType::class, $taxe);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->managerRegistry->getManager()->flush();
 
             return $this->redirectToRoute('taxe_index');
         }
@@ -113,13 +97,11 @@ class TaxeController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/{id}/delete", name="taxe_delete", methods={"POST"})
-     */
-    public function delete(Request $request, Taxe $taxe): Response
+    #[Route(path: '/{id}/delete', name: 'taxe_delete', methods: ['POST'])]
+    public function delete(Request $request, Taxe $taxe): RedirectResponse
     {
         if ($this->isCsrfTokenValid('delete'.$taxe->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->managerRegistry->getManager();
             $entityManager->remove($taxe);
             $entityManager->flush();
         }

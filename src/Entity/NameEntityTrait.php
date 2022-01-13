@@ -1,21 +1,15 @@
 <?php
 
-
 namespace AcMarche\Taxe\Entity;
-
 
 use Doctrine\ORM\Mapping as ORM;
 
 trait NameEntityTrait
 {
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
+    #[ORM\Column(type: 'string', length: 100)]
     private $nom;
 
-    /**
-     * @ORM\Column(type="string", length=100, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $prenom;
 
     public function getNom(): ?string

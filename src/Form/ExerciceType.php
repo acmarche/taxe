@@ -18,14 +18,13 @@ class ExerciceType extends AbstractType
                 'annee',
                 TextType::class,
                 [
-
                 ]
             )
             ->add(
                 'file',
                 VichFileType::class,
                 [
-                    'label' => 'Fichier'
+                    'label' => 'Fichier',
                 ]
             );
     }

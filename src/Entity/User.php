@@ -2,62 +2,47 @@
 
 namespace AcMarche\Taxe\Entity;
 
+use AcMarche\Taxe\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @ORM\Entity(repositoryClass="AcMarche\Taxe\Repository\UserRepository")
- */
-class User implements UserInterface
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+class User implements UserInterface, Stringable
 {
     use NameEntityTrait;
-
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
-
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
     private ?string $username = null;
-
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
+    #[ORM\Column(type: 'string', length: 100)]
     private ?string $email = null;
-
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
-
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private ?string $password = null;
-
     private ?string $plain_password = null;
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->nom.' '.$this->prenom;
     }
 
-    /**
-     * @return string|null
-     */
+    public function getUserIdentifier(): string
+    {
+        return $this->username;
+    }
+
     public function getPlainPassword(): ?string
     {
         return $this->plain_password;
     }
 
-    /**
-     * @param string|null $plain_password
-     */
     public function setPlainPassword(?string $plain_password): void
     {
         $this->plain_password = $plain_password;
@@ -68,7 +53,7 @@ class User implements UserInterface
         return $this->id;
     }
 
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return $this->username;
     }
@@ -80,7 +65,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getRoles(): ?array
+    public function getRoles(): array
     {
         return $this->roles;
     }
@@ -94,7 +79,7 @@ class User implements UserInterface
 
     public function addRole(string $role): self
     {
-        if (!in_array($role, $this->roles, true)) {
+        if (!\in_array($role, $this->roles, true)) {
             $this->roles[] = $role;
         }
 
@@ -103,7 +88,7 @@ class User implements UserInterface
 
     public function removeRole(string $role): self
     {
-        if (in_array($role, $this->roles, true)) {
+        if (\in_array($role, $this->roles, true)) {
             $index = array_search($role, $this->roles);
             unset($this->roles[$index]);
         }
@@ -113,10 +98,10 @@ class User implements UserInterface
 
     public function hasRole(string $role): bool
     {
-        return in_array($role, $this->getRoles(), true);
+        return \in_array($role, $this->getRoles(), true);
     }
 
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -145,7 +130,7 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }

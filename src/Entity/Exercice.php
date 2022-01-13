@@ -2,55 +2,42 @@
 
 namespace AcMarche\Taxe\Entity;
 
+use AcMarche\Taxe\Repository\ExerciceRepository;
 use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Entity(repositoryClass="AcMarche\Taxe\Repository\ExerciceRepository")
  * @Vich\Uploadable
  */
+#[ORM\Entity(repositoryClass: ExerciceRepository::class)]
 class Exercice
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
-
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private ?string $annee = null;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="AcMarche\Taxe\Entity\Taxe", inversedBy="exercices")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Taxe::class, inversedBy: 'exercices')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Taxe $taxe = null;
-
-    /**
-     * @ORM\Column(type="string", length=150)
-     */
+    #[ORM\Column(type: 'string', length: 150)]
     private ?string $fileName = null;
-
     /**
      * @Vich\UploadableField(mapping="taxes", fileNameProperty="fileName")
      */
     private ?File $file = null;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $updatedAt;
+    private ?string $nom = null;
+    //api demande ??
+    private ?int $position = null;
 
-    private ?string $nom;//api demande ??
-    private ?int $position;//api demande ??
-
+    //api demande ??
     public function __construct()
     {
         $this->updatedAt = new DateTime();
@@ -71,7 +58,7 @@ class Exercice
         return $this->id;
     }
 
-    public function getAnnee(): string
+    public function getAnnee(): ?string
     {
         return $this->annee;
     }
@@ -114,7 +101,7 @@ class Exercice
 
     public function setFile(?File $file): self
     {
-        if ($file !== null) {
+        if (null !== $file) {
             // if 'updatedAt' is not defined in your entity, use another property
             $this->updatedAt = new DateTime('now');
         }
@@ -124,7 +111,10 @@ class Exercice
         return $this;
     }
 
-    public function getUpdatedAt(): DateTime
+    /**
+     * @return DateTime|DateTimeImmutable
+     */
+    public function getUpdatedAt(): \DateTimeInterface
     {
         return $this->updatedAt;
     }

@@ -3,7 +3,6 @@
 namespace AcMarche\Taxe\Form;
 
 use AcMarche\Taxe\Entity\User;
-use AcMarche\Taxe\Service\Bottin;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -11,17 +10,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserEditType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $roles = ['ROLE_TAXE_ADMIN', 'ROLE_PATRIMOINE_ADMIN', 'ROLE_ENQUETE_ADMIN'];
         $builder
-            ->remove("plainPassword")
+            ->remove('plainPassword')
             ->add(
-                "roles",
+                'roles',
                 ChoiceType::class,
                 [
                     'choices' => array_combine($roles, $roles),
@@ -31,20 +26,17 @@ class UserEditType extends AbstractType
             );
     }
 
-    public function getParent(): string
+    public function getParent(): ?string
     {
         return UserType::class;
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => User::class,
-            )
+            ]
         );
     }
 }

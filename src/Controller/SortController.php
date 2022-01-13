@@ -1,36 +1,28 @@
 <?php
 
-
 namespace AcMarche\Taxe\Controller;
 
 use AcMarche\Taxe\Repository\TaxeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class DefaultController
- * @package AcMarche\Taxe\Controller
- * @Route("/sort")
- * @IsGranted("ROLE_TAXE_ADMIN")
+ * Class DefaultController.
  */
+#[Route(path: '/sort')]
+#[IsGranted(data: 'ROLE_TAXE_ADMIN')]
 class SortController extends AbstractController
 {
-    private TaxeRepository $taxeRepository;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(TaxeRepository $taxeRepository, EntityManagerInterface $entityManager)
+    public function __construct(private TaxeRepository $taxeRepository, private EntityManagerInterface $entityManager)
     {
-        $this->taxeRepository = $taxeRepository;
-        $this->entityManager = $entityManager;
     }
 
-    /**
-     * @Route("/", name="taxe_tri")
-     */
+    #[Route(path: '/', name: 'taxe_tri')]
     public function index(): Response
     {
         $taxes = $this->taxeRepository->findAllSorted();
@@ -45,16 +37,15 @@ class SortController extends AbstractController
 
     /**
      * Trier les news.
-     *
-     * @Route("/request", name="taxe_request_trier", methods={"GET", "POST"})
      */
-    public function trier(Request $request): Response
+    #[Route(path: '/request', name: 'taxe_request_trier', methods: ['GET', 'POST'])]
+    public function trier(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent());
+        $data = json_decode($request->getContent(), null, 512, JSON_THROW_ON_ERROR);
         $taxes = $data->taxes;
         foreach ($taxes as $position => $taxeId) {
             $taxe = $this->taxeRepository->find($taxeId);
-            if ($taxe !== null) {
+            if (null !== $taxe) {
                 $taxe->setPosition($position);
             }
         }
@@ -62,5 +53,4 @@ class SortController extends AbstractController
 
         return $this->json('<div class="alert alert-success">Tri enregistré</div>');
     }
-
 }

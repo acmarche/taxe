@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AcMarche\Taxe\Doctrine;
-
 
 use Doctrine\ORM\EntityManager;
 

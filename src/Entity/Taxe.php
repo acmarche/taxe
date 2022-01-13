@@ -2,42 +2,26 @@
 
 namespace AcMarche\Taxe\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use AcMarche\Taxe\Repository\TaxeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 
-/**
- * @ORM\Entity(repositoryClass="AcMarche\Taxe\Repository\TaxeRepository")
-
- */
-class Taxe
+#[ORM\Entity(repositoryClass: TaxeRepository::class)]
+class Taxe implements Stringable
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
-
-    /**
-     * @ORM\Column(type="string", length=200)
-     */
+    #[ORM\Column(type: 'string', length: 200)]
     private ?string $nom = null;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $position = null;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="AcMarche\Taxe\Entity\Nomenclature", inversedBy="taxes")
-     */
+    #[ORM\ManyToOne(targetEntity: Nomenclature::class, inversedBy: 'taxes')]
     private ?Nomenclature $nomenclature = null;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AcMarche\Taxe\Entity\Exercice", mappedBy="taxe", orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: Exercice::class, mappedBy: 'taxe', orphanRemoval: true)]
     private iterable $exercices;
 
     public function __construct()
@@ -46,9 +30,9 @@ class Taxe
         $this->position = 0;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->nom;
+        return (string) $this->nom;
     }
 
     public function getId(): ?int

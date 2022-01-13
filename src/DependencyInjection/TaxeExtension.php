@@ -2,11 +2,10 @@
 
 namespace AcMarche\Taxe\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
@@ -23,7 +22,7 @@ class TaxeExtension extends Extension implements PrependExtensionInterface
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
         $this->loader = $loader;
 
         $loader->load('services.yaml');
@@ -64,19 +63,15 @@ class TaxeExtension extends Extension implements PrependExtensionInterface
     {
         $configs = $this->loadYamlFile($container);
 
-        $configs->load($name . '.yaml');
+        $configs->load($name.'.yaml');
         //  $container->prependExtensionConfig('doctrine', $configs);
     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @return Loader\YamlFileLoader
-     */
     protected function loadYamlFile(ContainerBuilder $container): YamlFileLoader
     {
         return new YamlFileLoader(
             $container,
-            new FileLocator(__DIR__ . '/../../config/packages/')
+            new FileLocator(__DIR__.'/../../config/packages/')
         );
     }
 }

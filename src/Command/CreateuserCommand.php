@@ -2,10 +2,10 @@
 
 namespace AcMarche\Taxe\Command;
 
-use RuntimeException;
 use AcMarche\Taxe\Entity\User;
 use AcMarche\Taxe\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,25 +13,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CreateuserCommand extends Command
 {
     protected static $defaultName = 'taxe:create-user';
 
-    private UserRepository $userRepository;
-    private UserPasswordEncoderInterface $userPasswordEncoder;
-    private EntityManagerInterface $entityManager;
-
     public function __construct(
-        UserRepository $userRepository,
-        UserPasswordEncoderInterface $userPasswordEncoder,
-        EntityManagerInterface $entityManager
+        private UserRepository $userRepository,
+        private UserPasswordHasherInterface $userPasswordEncoder,
+        private EntityManagerInterface $entityManager
     ) {
         parent::__construct();
-        $this->userPasswordEncoder = $userPasswordEncoder;
-        $this->entityManager = $entityManager;
-        $this->userRepository = $userRepository;
     }
 
     protected function configure(): void
@@ -60,7 +53,7 @@ class CreateuserCommand extends Command
             return 1;
         }
 
-        if (strlen($name) < 1) {
+        if (\strlen($name) < 1) {
             $io->error('Name minium 1');
 
             return 1;
@@ -72,10 +65,8 @@ class CreateuserCommand extends Command
             $question->setMaxAttempts(5);
             $question->setValidator(
                 function ($password) {
-                    if (strlen($password) < 4) {
-                        throw new RuntimeException(
-                            'Le mot de passe doit faire minimum 4 caractères'
-                        );
+                    if (\strlen($password) < 4) {
+                        throw new RuntimeException('Le mot de passe doit faire minimum 4 caractères');
                     }
 
                     return $password;
@@ -89,7 +80,7 @@ class CreateuserCommand extends Command
         $questionAdministrator = new ConfirmationQuestion("Administrateur ? [Y,n] \n", true);
         $administrator = $helper->ask($input, $output, $questionAdministrator);
 
-        if ($user === null) {
+        if (null === $user) {
             $user = new User();
             $user->setEmail($email);
             $user->setUsername($email);
