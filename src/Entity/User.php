@@ -5,10 +5,11 @@ namespace AcMarche\Taxe\Entity;
 use AcMarche\Taxe\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements UserInterface, Stringable
+class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterface
 {
     use NameEntityTrait;
     #[ORM\Id]
