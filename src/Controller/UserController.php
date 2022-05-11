@@ -19,8 +19,11 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted(data: 'ROLE_TAXE_ADMIN')]
 class UserController extends AbstractController
 {
-    public function __construct(private UserRepository $userRepository, private UserPasswordHasherInterface $passwordEncoder, private ManagerRegistry $managerRegistry)
-    {
+    public function __construct(
+        private UserRepository $userRepository,
+        private UserPasswordHasherInterface $passwordEncoder,
+        private ManagerRegistry $managerRegistry
+    ) {
     }
 
     /**
@@ -47,7 +50,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword(
-                $this->passwordEncoder->encodePassword($user, $form->getData()->getPlainPassword())
+                $this->passwordEncoder->hashPassword($user, $form->getData()->getPlainPassword())
             );
             $this->userRepository->insert($user);
 
