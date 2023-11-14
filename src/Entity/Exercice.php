@@ -10,9 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-/**
- * @Vich\Uploadable
- */
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: ExerciceRepository::class)]
 class Exercice
 {
@@ -27,9 +25,7 @@ class Exercice
     private ?Taxe $taxe = null;
     #[ORM\Column(type: 'string', length: 150)]
     private ?string $fileName = null;
-    /**
-     * @Vich\UploadableField(mapping="taxes", fileNameProperty="fileName")
-     */
+    #[Vich\UploadableField(mapping: 'taxes', fileNameProperty: 'fileName', size: 'fileSize')]
     private ?File $file = null;
     #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $updatedAt;
