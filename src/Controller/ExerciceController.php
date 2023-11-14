@@ -7,7 +7,7 @@ use AcMarche\Taxe\Entity\Taxe;
 use AcMarche\Taxe\Form\ExerciceType;
 use AcMarche\Taxe\Repository\ExerciceRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(path: '/exercice')]
-#[IsGranted(data: 'ROLE_TAXE_ADMIN')]
+#[IsGranted('ROLE_TAXE_ADMIN')]
 class ExerciceController extends AbstractController
 {
     public function __construct(private ExerciceRepository $exerciceRepository, private ManagerRegistry $managerRegistry)

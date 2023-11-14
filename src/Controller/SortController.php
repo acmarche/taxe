@@ -4,7 +4,7 @@ namespace AcMarche\Taxe\Controller;
 
 use AcMarche\Taxe\Repository\TaxeRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class DefaultController.
  */
 #[Route(path: '/sort')]
-#[IsGranted(data: 'ROLE_TAXE_ADMIN')]
+#[IsGranted('ROLE_TAXE_ADMIN')]
 class SortController extends AbstractController
 {
     public function __construct(private TaxeRepository $taxeRepository, private EntityManagerInterface $entityManager)
