@@ -7,7 +7,7 @@ return static function (DoctrineConfig $doctrine) {
 
     $em->mapping('AcMarcheTaxe')
         ->isBundle(false)
-        ->type('annotation')
+        ->type('attribute')
         ->dir('%kernel.project_dir%/src/AcMarche/Taxe/src/Entity')
         ->prefix('AcMarche\Taxe')
         ->alias('AcMarcheTaxe');
