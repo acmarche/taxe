@@ -6,6 +6,7 @@ use AcMarche\Taxe\Entity\User;
 use AcMarche\Taxe\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,10 +16,12 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+#[AsCommand(
+    name: 'taxe:create-user',
+    description: 'Add a short description for your command',
+)]
 class CreateuserCommand extends Command
 {
-    protected static $defaultName = 'taxe:create-user';
-
     public function __construct(
         private UserRepository $userRepository,
         private UserPasswordHasherInterface $userPasswordEncoder,
@@ -30,7 +33,6 @@ class CreateuserCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Création d\'un utilisateur')
             ->addArgument('name', InputArgument::REQUIRED, 'Name')
             ->addArgument('email', InputArgument::REQUIRED, 'Email')
             ->addArgument('password', InputArgument::OPTIONAL, 'Password');

@@ -8,13 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-/**
- * Class DefaultController.
- */
 class ApiController extends AbstractController
 {
-    public function __construct(private NomenclatureRepository $nomenclatureRepository, private SerializerInterface $serializer)
-    {
+    public function __construct(
+        private NomenclatureRepository $nomenclatureRepository,
+        private SerializerInterface $serializer
+    ) {
     }
 
     #[Route(path: '/api2', name: 'taxe_api')]
