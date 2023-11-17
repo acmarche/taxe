@@ -2,9 +2,13 @@
 
 namespace AcMarche\Taxe\Repository;
 
+use AcMarche\Taxe\Doctrine\OrmCrudTrait;
 use AcMarche\Taxe\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -12,26 +16,25 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository
+class UserRepository extends ServiceEntityRepository implements UserLoaderInterface
 {
+    use OrmCrudTrait;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
     }
 
-    public function persist(User $user): void
+    /**
+     * @throws NonUniqueResultException
+     * @see UserProviderListener::checkPassport
+     */
+    public function loadUserByIdentifier(string $identifier): ?UserInterface
     {
-        $this->getEntityManager()->persist($user);
-    }
-
-    public function insert(User $user): void
-    {
-        $this->persist($user);
-        $this->flush();
-    }
-
-    public function flush(): void
-    {
-        $this->getEntityManager()->flush();
+        return $this->createQueryBuilder('user')
+            ->andWhere('user.email = :username OR user.username = :username')
+            ->setParameter('username', $identifier)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

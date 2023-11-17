@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterface
 {
     use NameEntityTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
