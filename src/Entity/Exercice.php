@@ -25,10 +25,13 @@ class Exercice
     private ?Taxe $taxe = null;
     #[ORM\Column(type: 'string', length: 150)]
     private ?string $fileName = null;
+    #[ORM\Column(type: 'integer')]
+    public ?int $fileSize = null;
     #[Vich\UploadableField(mapping: 'taxes', fileNameProperty: 'fileName', size: 'fileSize')]
     private ?File $file = null;
     #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $updatedAt;
+
     private ?string $nom = null;
     //api demande ??
     private ?int $position = null;
