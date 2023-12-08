@@ -4,8 +4,10 @@
 
 {% block body %}
 
-    <h3>Nouvelle exercice pour {{ taxe }}</h3>
-
-    {{ include('@Taxe/exercice/_form.html.twig') }}
-
+    <div class="card">
+        <h3 class="card-header">Nouvel exercice pour {{ taxe }}</h3>
+        <div class="card-body">
+            {{ include('@Taxe/exercice/_form.html.twig') }}
+        </div>
+    </div>
 {% endblock %}
