@@ -2,6 +2,7 @@
 
 namespace AcMarche\Taxe\Repository;
 
+use AcMarche\Taxe\Doctrine\OrmCrudTrait;
 use AcMarche\Taxe\Entity\Nomenclature;
 use AcMarche\Taxe\Entity\Taxe;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -15,6 +16,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TaxeRepository extends ServiceEntityRepository
 {
+    use OrmCrudTrait;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Taxe::class);

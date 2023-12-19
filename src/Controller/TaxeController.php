@@ -6,19 +6,18 @@ use AcMarche\Taxe\Entity\Taxe;
 use AcMarche\Taxe\Form\SearchTaxeType;
 use AcMarche\Taxe\Form\TaxeType;
 use AcMarche\Taxe\Repository\TaxeRepository;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(path: '/taxe')]
 #[IsGranted('ROLE_TAXE_ADMIN')]
 class TaxeController extends AbstractController
 {
-    public function __construct(private TaxeRepository $taxeRepository, private ManagerRegistry $managerRegistry)
+    public function __construct(private TaxeRepository $taxeRepository)
     {
     }
 
@@ -50,11 +49,10 @@ class TaxeController extends AbstractController
         $form = $this->createForm(TaxeType::class, $taxe);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->managerRegistry->getManager();
-            $entityManager->persist($taxe);
-            $entityManager->flush();
+            $this->taxeRepository->persist($taxe);
+            $this->taxeRepository->flush();
 
-            return $this->redirectToRoute('taxe_index');
+            return $this->redirectToRoute('taxe_show', ['id' => $taxe->getId()]);
         }
 
         return $this->render(
@@ -83,9 +81,9 @@ class TaxeController extends AbstractController
         $form = $this->createForm(TaxeType::class, $taxe);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->managerRegistry->getManager()->flush();
+            $this->taxeRepository->flush();
 
-            return $this->redirectToRoute('taxe_index');
+            return $this->redirectToRoute('taxe_show', ['id' => $taxe->getId()]);
         }
 
         return $this->render(
@@ -101,9 +99,8 @@ class TaxeController extends AbstractController
     public function delete(Request $request, Taxe $taxe): RedirectResponse
     {
         if ($this->isCsrfTokenValid('delete'.$taxe->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->managerRegistry->getManager();
-            $entityManager->remove($taxe);
-            $entityManager->flush();
+            $this->taxeRepository->remove($taxe);
+            $this->taxeRepository->flush();
         }
 
         return $this->redirectToRoute('taxe_index');

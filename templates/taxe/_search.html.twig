@@ -1,6 +1,12 @@
-{{ form_start(form) }}
-{{ form_errors(form) }}
-{{ form_widget(form) }}
-<input type="submit" name="search" value="Rechercher" class="btn btn-primary">
-{{ form_end(form) }}
-<br />
+<div class="row gy-2 gx-1 align-items-center d-print-none mb-3">
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+    <div class="col-auto">
+        {{ form_row(form.nom) }}
+    </div>
+    <div class="col-auto">
+        {{ form_row(form.nomenclature) }}
+    </div>
+    <input type="submit" name="search" value="Rechercher" class="btn btn-primary">
+    {{ form_end(form) }}
+</div>
