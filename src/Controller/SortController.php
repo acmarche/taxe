@@ -11,9 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * Class DefaultController.
- */
 #[Route(path: '/sort')]
 #[IsGranted('ROLE_TAXE_ADMIN')]
 class SortController extends AbstractController
@@ -35,9 +32,6 @@ class SortController extends AbstractController
         );
     }
 
-    /**
-     * Trier les news.
-     */
     #[Route(path: '/request', name: 'taxe_request_trier', methods: ['GET', 'POST'])]
     public function trier(Request $request): JsonResponse
     {

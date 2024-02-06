@@ -4,21 +4,22 @@ namespace AcMarche\Taxe\Controller;
 
 use AcMarche\Taxe\Entity\User;
 use AcMarche\Taxe\Form\UserPasswordType;
-use AcMarche\Taxe\Repository\UserRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(path: '/user/password')]
 #[IsGranted('ROLE_TAXE_ADMIN')]
 class PasswordController extends AbstractController
 {
-    public function __construct(private UserRepository $userRepository, private UserPasswordHasherInterface $passwordEncoder, private ManagerRegistry $managerRegistry)
-    {
+    public function __construct(
+        private UserPasswordHasherInterface $passwordEncoder,
+        private ManagerRegistry $managerRegistry
+    ) {
     }
 
     #[Route(path: '/password/{id}', name: 'taxe_user_password', methods: ['GET', 'POST'])]
