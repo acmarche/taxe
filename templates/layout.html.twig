@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}Taxes{% endblock %}</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('bundles/taxe/favicon.ico') }}"/>
-    {% block stylesheets %}{% endblock %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+    {% block stylesheets %}
 
-    <link href="{{ asset('bundles/taxe/css/app.css') }}" rel="stylesheet">
-
-    {{ encore_entry_link_tags('app') }}
-    {{ encore_entry_script_tags('app') }}
-
+    {% endblock %}
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
 </head>
 <body>
 {% set action = app.request.attributes.get("_route") %}
@@ -37,7 +37,6 @@
     </footer>
 {% endblock %}
 {% block scripts %}{% endblock %}
-{% block javascripts %}{% endblock %}
 
 </body>
 </html>
