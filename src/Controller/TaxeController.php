@@ -17,9 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_TAXE_ADMIN')]
 class TaxeController extends AbstractController
 {
-    public function __construct(private readonly TaxeRepository $taxeRepository)
-    {
-    }
+    public function __construct(private readonly TaxeRepository $taxeRepository) {}
 
     #[Route(path: '/', name: 'taxe_index', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
@@ -33,12 +31,15 @@ class TaxeController extends AbstractController
             $taxes = $this->taxeRepository->findAll();
         }
 
+        $response = new Response(null, $form->isSubmitted() ? Response::HTTP_ACCEPTED : Response::HTTP_OK);
+
         return $this->render(
             '@Taxe/taxe/index.html.twig',
             [
                 'form' => $form->createView(),
                 'taxes' => $taxes,
-            ]
+            ],
+            $response,
         );
     }
 
@@ -60,7 +61,7 @@ class TaxeController extends AbstractController
             [
                 'taxe' => $taxe,
                 'form' => $form->createView(),
-            ]
+            ],
         );
     }
 
@@ -71,7 +72,7 @@ class TaxeController extends AbstractController
             '@Taxe/taxe/show.html.twig',
             [
                 'taxe' => $taxe,
-            ]
+            ],
         );
     }
 
@@ -91,7 +92,7 @@ class TaxeController extends AbstractController
             [
                 'taxe' => $taxe,
                 'form' => $form->createView(),
-            ]
+            ],
         );
     }
 
