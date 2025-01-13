@@ -7,6 +7,7 @@ use AcMarche\Taxe\Entity\Taxe;
 use AcMarche\Taxe\Form\ExerciceType;
 use AcMarche\Taxe\Repository\ExerciceRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -70,13 +71,13 @@ class ExerciceController extends AbstractController
     }
 
     #[Route(path: '/delete', name: 'exercice_delete', methods: ['POST'])]
-    public function delete(Request $request): RedirectResponse
+    public function delete(Request $request): NotFoundHttpException|RedirectResponse
     {
         $id = $request->get('idexercice');
         $token = $request->get('_tokenauth');
         $exercice = $this->exerciceRepository->find($id);
         if (!$exercice instanceof Exercice) {
-            $this->createNotFoundException();
+           return $this->createNotFoundException();
         }
 
         $taxe = $exercice->getTaxe();
