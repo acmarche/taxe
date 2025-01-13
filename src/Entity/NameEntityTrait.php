@@ -2,15 +2,16 @@
 
 namespace AcMarche\Taxe\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 trait NameEntityTrait
 {
-    #[ORM\Column(type: 'string', length: 100)]
-    private $nom;
+    #[ORM\Column(type: Types::STRING, length: 100)]
+    private ?string $nom = null;
 
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    private $prenom;
+    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
+    private ?string $prenom = null;
 
     public function getNom(): ?string
     {

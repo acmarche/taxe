@@ -11,15 +11,15 @@ use Symfony\Component\Serializer\SerializerInterface;
 class ApiController extends AbstractController
 {
     public function __construct(
-        private NomenclatureRepository $nomenclatureRepository,
-        private SerializerInterface $serializer
+        private readonly NomenclatureRepository $nomenclatureRepository,
+        private readonly SerializerInterface $serializer
     ) {
     }
 
     #[Route(path: '/api2', name: 'taxe_api')]
     public function index(): Response
     {
-        $nomenclatures = $this->nomenclatureRepository->findAllGruped();
+        $nomenclatures = $this->nomenclatureRepository->findAllGrouped();
         $data = $this->serializer->serialize($nomenclatures, 'json', ['groups' => 'group1']);
 
         return new Response($data);

@@ -14,15 +14,15 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class NomenclatureRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $managerRegistry)
     {
-        parent::__construct($registry, Nomenclature::class);
+        parent::__construct($managerRegistry, Nomenclature::class);
     }
 
     /**
      * @return Nomenclature[] Returns an array of Nomenclature objects
      */
-    public function findAllGruped()
+    public function findAllGrouped(): array
     {
         return $this->createQueryBuilder('nomenclature')
             ->leftJoin('nomenclature.taxes', 'taxes', 'WITH')

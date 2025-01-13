@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[IsGranted('ROLE_TAXE_ADMIN')]
 class ExerciceController extends AbstractController
 {
-    public function __construct(private ExerciceRepository $exerciceRepository, private ManagerRegistry $managerRegistry)
+    public function __construct(private readonly ExerciceRepository $exerciceRepository, private readonly ManagerRegistry $managerRegistry)
     {
     }
 
@@ -28,6 +28,7 @@ class ExerciceController extends AbstractController
         $exercice = new Exercice();
         $exercice->setTaxe($taxe);
         $exercice->setAnnee('2020-2025');
+
         $form = $this->createForm(ExerciceType::class, $exercice);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -77,6 +78,7 @@ class ExerciceController extends AbstractController
         if (!$exercice instanceof Exercice) {
             $this->createNotFoundException();
         }
+
         $taxe = $exercice->getTaxe();
         if ($this->isCsrfTokenValid('delete'.$exercice->getId(), $token)) {
             $entityManager = $this->managerRegistry->getManager();

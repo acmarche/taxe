@@ -2,6 +2,7 @@
 
 namespace AcMarche\Taxe\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use AcMarche\Taxe\Repository\NomenclatureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,12 +14,18 @@ class Nomenclature implements Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
-    #[ORM\Column(type: 'string', length: 120)]
+
+    #[ORM\Column(type: Types::STRING, length: 120)]
     private ?string $nom = null;
-    #[ORM\Column(type: 'integer', nullable: true)]
+
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $position = null;
+
+    /**
+     * @var Collection<int, Taxe>
+     */
     #[ORM\OneToMany(targetEntity: Taxe::class, mappedBy: 'nomenclature')]
     private iterable $taxes;
 
@@ -92,21 +99,21 @@ class Nomenclature implements Stringable
         return $this;
     }
 
-    public function addTax(Taxe $tax): self
+    public function addTax(Taxe $taxe): self
     {
-        if (!$this->taxes->contains($tax)) {
-            $this->taxes[] = $tax;
-            $tax->setNomenclature($this);
+        if (!$this->taxes->contains($taxe)) {
+            $this->taxes[] = $taxe;
+            $taxe->setNomenclature($this);
         }
 
         return $this;
     }
 
-    public function removeTax(Taxe $tax): self
+    public function removeTax(Taxe $taxe): self
     {
         // set the owning side to null (unless already changed)
-        if ($this->taxes->removeElement($tax) && $tax->getNomenclature() === $this) {
-            $tax->setNomenclature(null);
+        if ($this->taxes->removeElement($taxe) && $taxe->getNomenclature() === $this) {
+            $taxe->setNomenclature(null);
         }
 
         return $this;

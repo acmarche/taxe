@@ -18,17 +18,20 @@ class TaxeRepository extends ServiceEntityRepository
 {
     use OrmCrudTrait;
 
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $managerRegistry)
     {
-        parent::__construct($registry, Taxe::class);
+        parent::__construct($managerRegistry, Taxe::class);
     }
 
-    public function findAllSorted()
+    /**
+     * @return Taxe[]
+     */
+    public function findAllSorted(): array
     {
-        $qb = $this->createQueryBuilder('taxe');
+        $queryBuilder = $this->createQueryBuilder('taxe');
 
         return
-            $qb
+            $queryBuilder
                 ->addOrderBy('taxe.position', 'ASC')
                 ->addOrderBy('taxe.nom', 'ASC')
                 ->getQuery()
@@ -38,20 +41,21 @@ class TaxeRepository extends ServiceEntityRepository
     /**
      * @return Taxe[] Returns an array of Taxe objects
      */
-    public function search(?string $nom, ?Nomenclature $nomenclature)
+    public function search(?string $nom, ?Nomenclature $nomenclature): array
     {
-        $qb = $this->createQueryBuilder('taxe');
+        $queryBuilder = $this->createQueryBuilder('taxe');
 
         if ($nom) {
-            $qb->andWhere('taxe.nom LIKE :nom')
+            $queryBuilder->andWhere('taxe.nom LIKE :nom')
                 ->setParameter('nom', '%'.$nom.'%');
         }
-        if (null !== $nomenclature) {
-            $qb->andWhere('taxe.nom LIKE :nomenclature')
+
+        if ($nomenclature instanceof Nomenclature) {
+            $queryBuilder->andWhere('taxe.nom LIKE :nomenclature')
                 ->setParameter('nomenclature', '%'.$nom.'%');
         }
 
-        return $qb->orderBy('taxe.nom', 'ASC')
+        return $queryBuilder->orderBy('taxe.nom', 'ASC')
             ->getQuery()
             ->getResult();
     }

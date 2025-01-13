@@ -2,6 +2,7 @@
 
 namespace AcMarche\Taxe\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use AcMarche\Taxe\Repository\TaxeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,21 +14,27 @@ class Taxe implements Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
-    #[ORM\Column(type: 'string', length: 200)]
+
+    #[ORM\Column(type: Types::STRING, length: 200)]
     private ?string $nom = null;
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $position = null;
+
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $position = 0;
+
     #[ORM\ManyToOne(targetEntity: Nomenclature::class, inversedBy: 'taxes')]
     private ?Nomenclature $nomenclature = null;
+
+    /**
+     * @var Collection<int, Exercice>
+     */
     #[ORM\OneToMany(targetEntity: Exercice::class, mappedBy: 'taxe', orphanRemoval: true)]
     private iterable $exercices;
 
     public function __construct()
     {
         $this->exercices = new ArrayCollection();
-        $this->position = 0;
     }
 
     public function __toString(): string

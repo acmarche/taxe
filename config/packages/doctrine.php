@@ -2,8 +2,8 @@
 
 use Symfony\Config\DoctrineConfig;
 
-return static function (DoctrineConfig $doctrine) {
-    $em = $doctrine->orm()->entityManager('default');
+return static function (DoctrineConfig $doctrineConfig): void {
+    $em = $doctrineConfig->orm()->entityManager('default');
 
     $em->mapping('AcMarcheTaxe')
         ->isBundle(false)

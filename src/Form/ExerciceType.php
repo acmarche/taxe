@@ -11,9 +11,9 @@ use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class ExerciceType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
-        $builder
+        $formBuilder
             ->add(
                 'annee',
                 TextType::class,
@@ -29,9 +29,9 @@ class ExerciceType extends AbstractType
             );
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $optionsResolver): void
     {
-        $resolver->setDefaults(
+        $optionsResolver->setDefaults(
             [
                 'data_class' => Exercice::class,
             ]

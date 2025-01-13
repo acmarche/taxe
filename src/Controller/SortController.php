@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[IsGranted('ROLE_TAXE_ADMIN')]
 class SortController extends AbstractController
 {
-    public function __construct(private TaxeRepository $taxeRepository, private EntityManagerInterface $entityManager)
+    public function __construct(private readonly TaxeRepository $taxeRepository, private readonly EntityManagerInterface $entityManager)
     {
     }
 
@@ -43,6 +43,7 @@ class SortController extends AbstractController
                 $taxe->setPosition($position);
             }
         }
+
         $this->entityManager->flush();
 
         return $this->json('<div class="alert alert-success">Tri enregistré</div>');

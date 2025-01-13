@@ -17,21 +17,21 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class PasswordController extends AbstractController
 {
     public function __construct(
-        private UserPasswordHasherInterface $passwordEncoder,
-        private ManagerRegistry $managerRegistry
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly ManagerRegistry $managerRegistry
     ) {
     }
 
     #[Route(path: '/password/{id}', name: 'taxe_user_password', methods: ['GET', 'POST'])]
     public function password(Request $request, User $user): Response
     {
-        $em = $this->managerRegistry->getManager();
+        $objectManager = $this->managerRegistry->getManager();
         $form = $this->createForm(UserPasswordType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $this->passwordEncoder->hashPassword($user, $form->getData()->getPlainPassword());
+            $password = $this->userPasswordHasher->hashPassword($user, $form->getData()->getPlainPassword());
             $user->setPassword($password);
-            $em->flush();
+            $objectManager->flush();
 
             $this->addFlash('success', 'Mot de passe changé');
 

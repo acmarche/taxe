@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_TAXE_ADMIN')]
 class TaxeController extends AbstractController
 {
-    public function __construct(private TaxeRepository $taxeRepository)
+    public function __construct(private readonly TaxeRepository $taxeRepository)
     {
     }
 

@@ -20,9 +20,9 @@ use Symfony\Component\Routing\Attribute\Route;
 class UserController extends AbstractController
 {
     public function __construct(
-        private UserRepository $userRepository,
-        private UserPasswordHasherInterface $passwordEncoder,
-        private ManagerRegistry $managerRegistry
+        private readonly UserRepository $userRepository,
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly ManagerRegistry $managerRegistry
     ) {
     }
 
@@ -50,7 +50,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword(
-                $this->passwordEncoder->hashPassword($user, $form->getData()->getPlainPassword())
+                $this->userPasswordHasher->hashPassword($user, $form->getData()->getPlainPassword())
             );
             $this->userRepository->insert($user);
 

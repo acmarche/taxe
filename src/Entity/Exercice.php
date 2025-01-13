@@ -2,6 +2,7 @@
 
 namespace AcMarche\Taxe\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use AcMarche\Taxe\Repository\ExerciceRepository;
 use DateTime;
 use DateTimeImmutable;
@@ -16,23 +17,30 @@ class Exercice
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
-    #[ORM\Column(type: 'string')]
+
+    #[ORM\Column(type: Types::STRING)]
     private ?string $annee = null;
+
     #[ORM\ManyToOne(targetEntity: Taxe::class, inversedBy: 'exercices')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Taxe $taxe = null;
-    #[ORM\Column(type: 'string', length: 150)]
+
+    #[ORM\Column(type: Types::STRING, length: 150)]
     private ?string $fileName = null;
-    #[ORM\Column(type: 'integer')]
+
+    #[ORM\Column(type: Types::INTEGER)]
     public ?int $fileSize = null;
+
     #[Vich\UploadableField(mapping: 'taxes', fileNameProperty: 'fileName', size: 'fileSize')]
     private ?File $file = null;
-    #[ORM\Column(type: 'datetime')]
-    private \DateTimeInterface $updatedAt;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private DateTimeInterface $updatedAt;
 
     private ?string $nom = null;
+
     //api demande ??
     private ?int $position = null;
 
@@ -100,7 +108,7 @@ class Exercice
 
     public function setFile(?File $file): self
     {
-        if (null !== $file) {
+        if ($file instanceof File) {
             // if 'updatedAt' is not defined in your entity, use another property
             $this->updatedAt = new DateTime('now');
         }
@@ -113,7 +121,7 @@ class Exercice
     /**
      * @return DateTime|DateTimeImmutable
      */
-    public function getUpdatedAt(): \DateTimeInterface
+    public function getUpdatedAt(): DateTimeInterface
     {
         return $this->updatedAt;
     }

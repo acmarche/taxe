@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[IsGranted('ROLE_TAXE_ADMIN')]
 class NomenclatureController extends AbstractController
 {
-    public function __construct(private ManagerRegistry $managerRegistry)
+    public function __construct(private readonly ManagerRegistry $managerRegistry)
     {
     }
 

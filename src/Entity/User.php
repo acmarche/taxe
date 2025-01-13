@@ -2,6 +2,7 @@
 
 namespace AcMarche\Taxe\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use AcMarche\Taxe\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
@@ -15,19 +16,24 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
+
+    #[ORM\Column(type: Types::STRING, length: 180, unique: true)]
     private ?string $username = null;
-    #[ORM\Column(type: 'string', length: 100)]
+
+    #[ORM\Column(type: Types::STRING, length: 100)]
     private ?string $email = null;
-    #[ORM\Column(type: 'json')]
+
+    #[ORM\Column(type: Types::JSON)]
     private array $roles = [];
+
     /**
      * @var string The hashed password
      */
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: Types::STRING)]
     private ?string $password = null;
+
     private ?string $plain_password = null;
 
     public function __toString(): string
@@ -91,7 +97,7 @@ class User implements UserInterface, Stringable, PasswordAuthenticatedUserInterf
     public function removeRole(string $role): self
     {
         if (\in_array($role, $this->roles, true)) {
-            $index = array_search($role, $this->roles);
+            $index = array_search($role, $this->roles, true);
             unset($this->roles[$index]);
         }
 
