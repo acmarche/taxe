@@ -73,7 +73,7 @@ class TaxeLdapAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('homepage'));
+        return new RedirectResponse($this->urlGenerator->generate('extranet_home'));
     }
 
     protected function getLoginUrl(Request $request): string
