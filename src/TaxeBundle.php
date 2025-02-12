@@ -30,7 +30,6 @@ class TaxeBundle extends AbstractBundle
     {
         $containerConfigurator->import('../config/packages/twig.php');
         $containerConfigurator->import('../config/packages/doctrine.php');
-        $containerConfigurator->import('../config/packages/security.php');
         $containerConfigurator->import('../config/packages/vich_uploader.php');
     }
 }

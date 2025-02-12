@@ -2,8 +2,8 @@
 
 namespace AcMarche\Taxe\Command;
 
-use AcMarche\Taxe\Entity\User;
-use AcMarche\Taxe\Repository\UserRepository;
+use AcMarche\Extranet\Entity\User;
+use AcMarche\Extranet\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -87,7 +87,7 @@ class CreateuserCommand extends Command
             $user->setEmail($email);
             $user->setUsername($email);
             $user->setNom($name);
-            $user->setPassword($this->userPasswordHasher->encodePassword($user, $password));
+            $user->setPassword($this->userPasswordHasher->hashPassword($user, $password));
             $this->entityManager->persist($user);
         }
 
@@ -100,6 +100,6 @@ class CreateuserCommand extends Command
 
         $symfonyStyle->success("L'utilisateur a bien été créé");
 
-        return 0;
+        return Command::SUCCESS;
     }
 }
