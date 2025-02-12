@@ -6,22 +6,24 @@
 {% endblock %}
 
 {% block menu_top %}
-    <li>
-        <a href="{{ path('taxe_new') }}" class="nav-link px-2">
-            <i class="ti ti-plus"> </i>
-            Ajouter une taxe
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('nomenclature_index') }}" class="nav-link px-2">
-            <i class="ti ti-list"> </i>
-            Nomenclatures
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('taxe_index') }}" class="nav-link px-2">
-            <i class="ti ti-list"> </i>
-            Taxes
-        </a>
-    </li>
+    {% if is_granted('ROLE_TAXE_ADMIN') %}
+        <li>
+            <a href="{{ path('taxe_new') }}" class="nav-link px-2">
+                <i class="ti ti-plus"> </i>
+                Ajouter une taxe
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('nomenclature_index') }}" class="nav-link px-2">
+                <i class="ti ti-list"> </i>
+                Nomenclatures
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('taxe_index') }}" class="nav-link px-2">
+                <i class="ti ti-list"> </i>
+                Taxes
+            </a>
+        </li>
+    {% endif %}
 {% endblock %}
