@@ -58,7 +58,7 @@ class ExerciceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->managerRegistry->getManager()->flush();
 
-            return $this->redirectToRoute('exercice_index');
+            return $this->redirectToRoute('taxe_show', ['id' => $exercice->getTaxe()->getId()]);
         }
 
         return $this->render(
@@ -77,11 +77,11 @@ class ExerciceController extends AbstractController
         $token = $request->get('_tokenauth');
         $exercice = $this->exerciceRepository->find($id);
         if (!$exercice instanceof Exercice) {
-           return $this->createNotFoundException();
+            return $this->createNotFoundException();
         }
 
         $taxe = $exercice->getTaxe();
-        if ($this->isCsrfTokenValid('delete'.$exercice->getId(), $token)) {
+        if ($this->isCsrfTokenValid('delete' . $exercice->getId(), $token)) {
             $entityManager = $this->managerRegistry->getManager();
             $entityManager->remove($exercice);
             $entityManager->flush();

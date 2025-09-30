@@ -12,17 +12,28 @@
             <table class="table table-bordered">
                 <tr>
                     <th>Année</th>
+                    <th>Url</th>
                     <th>Fichier</th>
-                    <th>Suppression</th>
+                    <th>Actions</th>
                 </tr>
 
                 {% for exercice in taxe.exercices %}
                     <tr>
                         <td>{{ exercice.annee }}</td>
                         <td>
-                            <a href="{{ vich_uploader_asset(exercice, 'file') }}" target="_blank">Télécharger</a>
+                            {% if exercice.url %}
+                                <a href="{{ exercice.url }}" target="_blank">{{ exercice.url }}</a>
+                            {% endif %}
                         </td>
                         <td>
+                            {% if exercice.fileName %}
+                                <a href="{{ vich_uploader_asset(exercice, 'file') }}" target="_blank">Télécharger</a>
+                            {% endif %}
+                        </td>
+                        <td class="d-flex flex-row gap-4">
+                            <a href="{{ path('exercice_edit', { 'id': exercice.id }) }}" class="btn btn-info btn-sm">
+                                <i class="ti ti-edit"></i> Editer
+                            </a>
                             <button name="coucou" type="button" class="btnDelete btn btn-danger btn-sm"
                                     data-bs-toggle="modal"
                                     data-bs-target="#deleteAuthorization"
