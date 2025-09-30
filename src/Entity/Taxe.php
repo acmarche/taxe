@@ -15,22 +15,22 @@ class Taxe implements Stringable
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
-    private ?int $id = null;
+    public ?int $id = null;
 
     #[ORM\Column(type: Types::STRING, length: 200)]
-    private ?string $nom = null;
+    public ?string $nom = null;
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
-    private ?int $position = 0;
+    public ?int $position = 0;
 
     #[ORM\ManyToOne(targetEntity: Nomenclature::class, inversedBy: 'taxes')]
-    private ?Nomenclature $nomenclature = null;
+    public ?Nomenclature $nomenclature = null;
 
     /**
      * @var Collection<int, Exercice>
      */
     #[ORM\OneToMany(targetEntity: Exercice::class, mappedBy: 'taxe', orphanRemoval: true)]
-    private iterable $exercices;
+    public iterable $exercices;
 
     public function __construct()
     {

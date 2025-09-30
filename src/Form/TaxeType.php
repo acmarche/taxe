@@ -13,8 +13,7 @@ class TaxeType extends AbstractType
     {
         $formBuilder
             ->add('nom')
-            ->add('nomenclature')
-        ;
+            ->add('nomenclature');
     }
 
     public function configureOptions(OptionsResolver $optionsResolver): void

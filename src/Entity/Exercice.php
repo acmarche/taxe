@@ -18,31 +18,34 @@ class Exercice
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
-    private ?int $id = null;
+    public ?int $id = null;
 
     #[ORM\Column(type: Types::STRING)]
-    private ?string $annee = null;
+    public ?string $annee = null;
 
     #[ORM\ManyToOne(targetEntity: Taxe::class, inversedBy: 'exercices')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Taxe $taxe = null;
+    public ?Taxe $taxe = null;
 
     #[ORM\Column(type: Types::STRING, length: 150)]
-    private ?string $fileName = null;
+    public ?string $fileName = null;
 
     #[ORM\Column(type: Types::INTEGER)]
     public ?int $fileSize = null;
 
     #[Vich\UploadableField(mapping: 'taxes', fileNameProperty: 'fileName', size: 'fileSize')]
-    private ?File $file = null;
+    public ?File $file = null;
+
+    #[ORM\Column(type: Types::STRING, length: 200, nullable: true)]
+    public ?string $url = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private DateTimeInterface $updatedAt;
+    public DateTimeInterface $updatedAt;
 
-    private ?string $nom = null;
+    public ?string $nom = null;
 
     //api demande ??
-    private ?int $position = null;
+    public ?int $position = null;
 
     //api demande ??
     public function __construct()
