@@ -27,10 +27,10 @@ class Exercice
     #[ORM\JoinColumn(nullable: false)]
     public ?Taxe $taxe = null;
 
-    #[ORM\Column(type: Types::STRING, length: 150)]
+    #[ORM\Column(type: Types::STRING, length: 150, nullable: true)]
     public ?string $fileName = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     public ?int $fileSize = null;
 
     #[Vich\UploadableField(mapping: 'taxes', fileNameProperty: 'fileName', size: 'fileSize')]

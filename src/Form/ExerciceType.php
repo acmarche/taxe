@@ -21,7 +21,7 @@ class ExerciceType extends AbstractType
                 [
                     'label' => 'Année de l\'exercice',
                     'help' => '',
-                    'required' => false,
+                    'required' => true,
                 ]
             )
             ->add('url', UrlType::class, [
