@@ -4,5 +4,7 @@ AcMarche\Taxe\Entity\Exercice:
       groups: [ 'group1' ]
     annee:
       groups: [ 'group1' ]
+    url:
+      groups: [ 'group1' ]
     fileName:
       groups: [ 'group1' ]
