@@ -29,7 +29,7 @@ class ApiController extends AbstractController
                     $exercices[] = [
                         'id' => $exercice->getId(),
                         'annee' => $exercice->getAnnee(),
-                        'url' => null,
+                        'url' => 'https://extranet.marche.be/files/taxes/'.$exercice->getFileName(),
                         'fileName' => $exercice->getFileName(),
                     ];
                 }
