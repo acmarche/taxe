@@ -6,13 +6,11 @@ use AcMarche\Taxe\Repository\NomenclatureRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class ApiController extends AbstractController
 {
     public function __construct(
         private readonly NomenclatureRepository $nomenclatureRepository,
-        private readonly SerializerInterface $serializer
     ) {
     }
 
@@ -39,8 +37,8 @@ class ApiController extends AbstractController
                     'position' => $taxe->getPosition(),
                     'exercices' => $exercices,
                 ];
-                $data[] = $row;
             }
+            $data[] = $row;
         }
 
         return new JsonResponse($data);
