@@ -24,10 +24,17 @@ class ApiController extends AbstractController
             foreach ($nomenclature->getTaxes() as $taxe) {
                 $exercices = [];
                 foreach ($taxe->getExercices() as $exercice) {
+                    $url = '';
+                    if ($exercice->url) {
+                        $url = $exercice->url;
+                    }
+                    if ($exercice->getFileName()) {
+                        $url = 'https://extranet.marche.be/files/taxes/'.$exercice->getFileName();
+                    }
                     $exercices[] = [
                         'id' => $exercice->getId(),
                         'annee' => $exercice->getAnnee(),
-                        'url' => 'https://extranet.marche.be/files/taxes/'.$exercice->getFileName(),
+                        'url' => $url,
                         'fileName' => $exercice->getFileName(),
                     ];
                 }
