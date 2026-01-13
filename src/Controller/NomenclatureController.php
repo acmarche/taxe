@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[IsGranted('ROLE_TAXE_ADMIN')]
 class NomenclatureController extends AbstractController
 {
-    public function __construct(private readonly ManagerRegistry $managerRegistry)
+    public function __construct(private readonly NomenclatureRepository $nomenclatureRepository)
     {
     }
 
@@ -36,9 +36,8 @@ class NomenclatureController extends AbstractController
         $form = $this->createForm(NomenclatureType::class, $nomenclature);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->managerRegistry->getManager();
-            $entityManager->persist($nomenclature);
-            $entityManager->flush();
+            $this->nomenclatureRepository->persist($nomenclature);
+            $this->nomenclatureRepository->flush();
 
             return $this->redirectToRoute('nomenclature_index');
         }
@@ -63,7 +62,7 @@ class NomenclatureController extends AbstractController
         $form = $this->createForm(NomenclatureType::class, $nomenclature);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->managerRegistry->getManager()->flush();
+            $this->nomenclatureRepository->flush();
 
             return $this->redirectToRoute('nomenclature_index');
         }
@@ -78,9 +77,8 @@ class NomenclatureController extends AbstractController
     public function delete(Request $request, Nomenclature $nomenclature): RedirectResponse
     {
         if ($this->isCsrfTokenValid('delete'.$nomenclature->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->managerRegistry->getManager();
-            $entityManager->remove($nomenclature);
-            $entityManager->flush();
+            $this->nomenclatureRepository->remove($nomenclature);
+            $this->nomenclatureRepository->flush();
         }
 
         return $this->redirectToRoute('nomenclature_index');
